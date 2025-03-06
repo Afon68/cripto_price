@@ -1,0 +1,153 @@
+
+body {
+  font-family: sans-serif !important; /* Вернёт стандартный шрифт */
+}
+
+
+.ccontainer-fluid {
+  display: flex;
+  justify-content: space-between; /* Расстояние между элементами */
+  align-items: center;
+  gap: 0px; /* Отступ между графиком и таблицей */
+}
+
+.chart-container {
+  width: 75%;
+  margin-right: 1rem;
+}
+
+/* .table-container {
+  width: 35%;
+} */
+/* .current {
+  color:red
+} */
+
+#table-container {
+  border-collapse: collapse; /* Убирает отступы между ячейками */
+  width: 100%; /* Полная ширина */
+  margin-right: 2rem;
+}
+
+#table-container th, #table-container td {
+  border: 1px solid black; /* Чёрные границы */
+  padding: 2px; /* Отступ внутри ячеек */
+  text-align: center;
+}
+
+.container {
+  max-width: none !important; /* Если Bootstrap сжимает контейнер */
+}
+
+table {
+  padding-right: 2rem;
+}
+
+.col-lg-4 {
+  padding-right: 2rem;
+  padding-top: 2rem;
+}
+
+.dancing-script {
+  font-family: "Dancing Script", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  display: inline-block;
+  /* Обязательно для корректной работы transform */
+  transform: rotate(-15deg);
+  /* Угол поворота в градусах */
+  transform-origin: center;
+  /* Точка, вокруг которой происходит вращение */
+  font-size: 24px;
+  /* Размер */
+  text-shadow: 5px 5px 5px rgba(252, 251, 251, 0.7);
+  margin-left: 5rem;
+  padding-left: -5rem;
+  margin-right: -5rem;
+}
+
+
+.dancing-script:hover{
+
+  text-shadow: none;   /*5px 5px rgb(255, 255, 255);*/
+  color: #7f7e7e;
+  
+}
+
+.navbar-nav {
+  margin-left: 8rem !important;
+  
+}
+
+.time_frame {
+  margin-left: 0rem !important;
+  margin-right: 2rem !important;
+}
+
+.tokens {
+  margin-right: 2rem !important;
+}
+
+.period {
+  margin-left: 0rem !important;
+  padding-left: 0rem !important;
+}
+
+.frame {
+  margin-right: 0rem ;
+  font-size: 0.8rem;
+  padding-bottom: 0rem !important;
+  margin-top: -1.5rem !important;
+  padding-top: 0rem !important;
+  text-align: center;
+}
+
+.tok {
+  font-size: 2rem;
+}
+
+.hour {
+  margin-right: 0rem ;
+ 
+  padding-bottom: 0rem !important;
+  margin-top: 0rem !important;
+  padding-top: 0rem !important;
+}
+
+.tron {
+  margin-right: 0rem ;
+  
+  padding-bottom: 0rem !important;
+  margin-top: 1rem !important;
+  padding-top: 0rem !important;
+}
+
+.text {
+  padding-left: 1rem !important;
+  width: 700px;
+  /* margin-top: 3rem !important; */
+  /* padding: 2rem!important; */
+}
+
+.name-cur {
+  /* justify-content: right; */
+  margin-top: 0rem;
+  text-align:start; 
+  width: 900px;
+  
+  /* display: inline-block; */
+}
+
+p {
+  display: inline;
+  /* background-color: rgb(37, 36, 36);
+  color:white; */
+  margin-top: 0rem;
+  padding-right: 1rem;
+}
+
+.toks {
+  display: flex;
+}
+

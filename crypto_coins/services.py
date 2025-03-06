@@ -15,6 +15,8 @@ import selenium
 
 from crypto_coins.models import CoinPrice 
 from crypto_coins.models import Token
+from django.db import connection
+
 
 print(f"selenium.__version__ = {selenium.__version__}")
 # from selenium.webdriver.chrome.service import  WebDriverWait
@@ -106,6 +108,8 @@ def price_token_from_rialto():
                 if price:
                     CoinPrice.objects.create(price=price, token=item)
                     logging.info(f"🔥Запись в БД сделана !🚀💪:Цена {item.name} = {price}")
+                    delete_entrys()
+                    
                 else:
                     print("❌ Данные от поставщика не пришли - записывать нечего в БД")
                     return
@@ -120,7 +124,21 @@ def price_token_from_rialto():
         # # Закрываем браузер
     driver.quit()
     logging.info("✅ Следующая запись в БД через 1 минуту")
+    # delete_entrys()
+    logging.info(f"✅Кол-во записей в CoinPrice = {len(CoinPrice.objects.all())}")
+    with connection.cursor() as cursor: # размер таблицы coinprice
+        cursor.execute("SELECT pg_size_pretty(pg_total_relation_size('crypto_coins_coinprice'));")
+        size = cursor.fetchone()
+        print(f"size = {size[0]}")
     return True
+
+
+def delete_entrys(tokens):
+    # logging.info(f"✅Кол-во записей в CoinPrice = {len(CoinPrice.objects.all())}")
+    if len(CoinPrice.objects.all()) > 1450 * len(tokens):
+        CoinPrice.objects.last().delete()
+    print(f"Объём БД - {1450 * len(tokens)} записей")
+        # CoinPrice.objects.filter(id__lt=4).delete()
     # print(prices)
     # return prices
 

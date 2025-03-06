@@ -21,7 +21,7 @@ def start():
 
     scheduler = BackgroundScheduler()
     # scheduler.add_job(price_token_from_rialto, 'date', run_date=(datetime.now() + timedelta(minutes=1)), id='price_token_from_rialto_1')
-    scheduler.add_job(price_token_from_rialto, "interval", seconds=60)
+    scheduler.add_job(price_token_from_rialto, "interval", seconds=60)     #  minutes=1  seconds=60  hours=1/20
     scheduler.start()
 
     # Останавливаем планировщик при завершении Django-сервера

@@ -1,0 +1,159 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+    <meta charset="UTF-8">
+ 
+    <link rel="stylesheet" href="{% static "crypto_coins/css/my_css.css" %}">
+    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    {% comment %} <link rel="apple-touch-icon" sizes="180x180" href="{% static "ether_life/img/fav/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "ether_life/img/fav/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "ether_life/img/fav/favicon-16x16.png" %}">
+    <link rel="manifest" href="{% static "ether_life/img/fav/site.webmanifest" %}"> {% endcomment %}
+    <title>...</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand p-0" href="Home.html"><img src="{% static "crypto_coins/images/AlSt.png" %}" width="70px" alt="alst"></a>
+
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse mx-5" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="Home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="plases.html">Favorite plases</a>
+                    </li>
+                </ul>
+                <div class="ic">
+                    <a href="#"><img style="width: 30px;margin-inline: 1em;" src="{% static "crypto_coins/images/tg.png" %}" alt="telegram"></a>
+                    <a href="#"><img style="width: 25px;margin-inline: 1em;" src="{% static "crypto_coins/images/yt.png" %}" alt="yotube">youtube</a>
+                </div>
+                <ul class="navbar-nav me-auto mb-2 mx-1 mb-lg-0 tokens">
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link tok dropdown-toggle text-white" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            TOKEN
+                        </a> 
+                        {% comment %} <ul class="dropdown-menu">
+                            {% for token in tokens %}
+                                 <li><a class="dropdown-item text-black" href="{% url "crypto_coins:token_price" token.symbol %}">{{token.name}}</a></li>
+                            {% endfor %} 
+                        
+                        </ul> {% endcomment %}
+                        <ul class="nav-item dropdown-menu">
+                            {% for token in tokens %}
+                                <li>
+                                    <a class="dropdown-item text-black token-button" 
+                                       href="#" data-symbol="{{ token.symbol }}">{{ token.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    
+                   
+                                                                        <!--<span class="time_frame"id="frame">Загрузка...</span>-->
+                </ul>
+                <div class="hour">
+                    </li>
+                        <ul class="navbar-nav me-auto mb-0 mx-10 mb-lg-0 time_frame">
+                            <li class="nav-item dropdown ">
+                                <a class="nav-link tron dropdown-toggle text-white" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    TIME-FRAME                                          
+                                </a> 
+                                <ul class="nav-item dropdown-menu">
+                                    {% for name_frame, name_value  in time_frames %}
+                                        <li>
+                                            <a class="dropdown-item text-black frame-button" 
+                                            href="#" data-frame="{{ name_value }}">{{ name_frame }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                
+                            </li>
+                       </ul>
+                    </li>
+                    <li class="nav-item">
+                        <p class="nav-link frame text-white" id="frame"  >Favorite plases</p>
+                    </li>  
+                </div>
+                <div class="hour">
+                    <ul class="navbar-nav me-auto mb-2 mx-10 mb-lg-0 time_frame period">
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link tron dropdown-toggle text-white" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                    TIME-PERIOD
+                            </a> 
+                            <ul class="nav-item dropdown-menu">
+                                {% for period_time,period_value in time_periods %}
+                                    <li>
+                                        <a class="dropdown-item text-black period-button" 
+                                            href="#" data-period="{{ period_value}}">{{ period_time }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                    <li class="nav-item">
+                        <p id="period"class="nav-link frame text-white" id="period">Favorite plases</p>
+                    </li>   
+                </div> 
+                <a class="navbar-brand dancing-script" href="#">AkselWebStudio</a>
+            </div>
+           
+        </div>
+    </nav>
+    <div class="toks">            
+        <div class="text mt-3">
+            <h2 id="current">Текущая цена Ethereum:</h2>          <!--chart-container  container<span id="eth-price">Загрузка...</span>content-container-->
+            <h2 id="history-price">История цен на Ethereum</h2>
+        </div>
+       
+        <div id="all-price" class="name-cur mt-3">
+            {% for token in tokens %}
+                <p>{{token.name}}</p>  
+            {% endfor %}        
+        </div>
+        
+    </div>
+    <div class="container-fluid mt-3 mx-2 mb-3">
+        <div class="row">
+            <div class="col-lg-8 col-md-6 ">
+                <canvas id="tokenChart"></canvas> <!-- График -->
+            </div>
+            <div class="col-lg-4 col-md-6">   
+                <table border="1" id="table-container">
+                    <style>
+                        .up { color: red; font-weight: bold; }     /* 🔼 Красная стрелка */
+                        .down { color: green; font-weight: bold; } /* 🔽 Зелёная стрелка */
+                        .neutral { color: gray; }                  /* ➖ Серый прочерк */
+                    </style>
+                </table>
+            </div>   
+            
+        </div>
+    </div>
+
+
+    <script src="{% static 'crypto_coins/js/update_list_chart.js' %}"></script>
+</body>
+</html>
