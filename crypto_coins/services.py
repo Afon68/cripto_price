@@ -47,7 +47,7 @@ def price_token_from_rialto():
         print(f"❌ Ошибка запуска Selenium: {e}")
         return None
     
-    # prices = {}
+    prices = []
     tokens = Token.objects.all()
     if tokens:
         for item in tokens:
@@ -106,8 +106,8 @@ def price_token_from_rialto():
                 # print(item.symbol)
                 # (ETH) Bitcoin (BTC)
                 if price:
-                    CoinPrice.objects.create(price=price, token=item)
-                    logging.info(f"🔥Запись в БД сделана !🚀💪:Цена {item.name} = {price}")
+                    prices.append(CoinPrice(price=price, token=item))
+                    logging.info(f"🔥Запись в список prices сделана !🚀💪:Цена {item.name} = {price}")
                     delete_entrys()
                     
                 else:
@@ -121,6 +121,9 @@ def price_token_from_rialto():
     else:
         print("❌ Нет связи с БД")
         return None 
+    CoinPrice.objects.bulk_create(prices)
+    logging.info(f"🔥Запись в БД  списка через bulk_create(prices) сделана !🚀💪")
+    logging.info(f"✅ Объём БД должна быть не более {1450 * len(tokens)} записей")
         # # Закрываем браузер
     driver.quit()
     logging.info("✅ Следующая запись в БД через 1 минуту")
@@ -133,11 +136,11 @@ def price_token_from_rialto():
     return True
 
 
-def delete_entrys(tokens):
+def delete_entrys():
     # logging.info(f"✅Кол-во записей в CoinPrice = {len(CoinPrice.objects.all())}")
     if len(CoinPrice.objects.all()) > 1450 * len(tokens):
         CoinPrice.objects.last().delete()
-    print(f"Объём БД - {1450 * len(tokens)} записей")
+   
         # CoinPrice.objects.filter(id__lt=4).delete()
     # print(prices)
     # return prices

@@ -394,7 +394,8 @@ function updatechartInstance(getData) {
                     borderWidth: 2, // Базовая толщина
                     fill: true,
                     pointRadius: 3, // Радиус точек
-                    pointBackgroundColor: "gray", // Цвет точек
+                    // pointBackgroundColor: "white", // Цвет точек
+                    // pointBorderColor: "blue",
                     tension: 0.3,  // ✅ Делаем линии плавными
                     segment: {
                         borderColor: ctx => {
@@ -477,7 +478,11 @@ function updatechartInstance(getData) {
         };
         // цвет межзвеньевой точки
         chartInstance.data.datasets[0].borderColor = sortedPrices.map((priceData, i) => {
-            if (i === 0) return "gray";
+            if (i === 0) return "blue";
+            return sortedPrices[i].price > sortedPrices[i - 1].price ? "green" : "red";
+        });
+        chartInstance.data.datasets[0].pointBackgroundColor = sortedPrices.map((priceData, i) => {
+            if (i === 0) return "green";
             return sortedPrices[i].price > sortedPrices[i - 1].price ? "green" : "red";
         });
         //размер межзвеньевой точки

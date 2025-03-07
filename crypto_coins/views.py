@@ -29,7 +29,11 @@ def get_latest_price_list(request,token_symbol,time_frame,period):    # ,time_fr
                                                                     ).annotate(
                                                                         hour=F('timestamp__minute')  # Добавляем поле "час"  hour
                                                                         ).order_by('-timestamp','hour')  # 🔥 Сначала сортируем по "hour"
-    print(f"L = {len(hourly_prices)}")
+    v_db = len(CoinPrice.objects.filter(token__symbol=token_symbol))
+    
+    print(f"Объем БД CoinPrice = {len(CoinPrice.objects.all())}")
+    print(f"Объем БД CoinPrice токену {token.name} = {v_db}")
+    print(f"Длина списка по {token.name}  = {len(hourly_prices)}")
     # 🔥 Берём только первую запись для каждого часа
     unique_hours = {}
     # time_frame = 30
@@ -51,23 +55,40 @@ def get_latest_price_list(request,token_symbol,time_frame,period):    # ,time_fr
     #             last_price.append(hourly_prices[i+1])
     #         # elif hourly_prices[i].hour % time_frame != 0 and hourly_prices[i+1].hour % time_frame != 14 and hourly_prices[i-1].hour % time_frame == 1:
             #     last_price.append(hourly_prices[i-1])
-    i = 0            
+    # i = 0            
+    # while i < len(hourly_prices):
+    #     if i > 0 and i < len(hourly_prices) - 1:
+    #         if hourly_prices[i].hour % time_frame == 0:
+    #             last_price.append(hourly_prices[i])
+    #         elif hourly_prices[i].hour % time_frame != 0 and hourly_prices[i-1].hour % time_frame == 1:
+    #             last_price.append(hourly_prices[i-1])
+    #             i += 1
+    #         elif hourly_prices[i].hour % time_frame != 0 and hourly_prices[i+1].hour % time_frame == time_frame - 1:
+    #             last_price.append(hourly_prices[i+1])
+    #             i += 1
+    #     i += 1    
+            
+            
+    # if hourly_prices[len(hourly_prices) - 1].hour % time_frame == 0:
+    #     last_price.append(hourly_prices[len(hourly_prices) - 1])
+
+
+    last_price.append(hourly_prices[0])
+    i = 1            
     while i < len(hourly_prices):
-        if i > 0 and i < len(hourly_prices) - 1:
-            if hourly_prices[i].hour % time_frame == 0:
+        if i > 1 and i < len(hourly_prices) - 1:
+            if (hourly_prices[i].hour - hourly_prices[0].hour) % time_frame == 0:
                 last_price.append(hourly_prices[i])
-            elif hourly_prices[i].hour % time_frame != 0 and hourly_prices[i-1].hour % time_frame == 1:
+            elif (hourly_prices[i].hour - hourly_prices[0].hour) % time_frame != 0 and (hourly_prices[i-1].hour - hourly_prices[0].hour) % time_frame == 1:
                 last_price.append(hourly_prices[i-1])
                 i += 1
-            elif hourly_prices[i].hour % time_frame != 0 and hourly_prices[i+1].hour % time_frame == time_frame - 1:
+            elif (hourly_prices[i].hour - hourly_prices[0].hour) % time_frame != 0 and (hourly_prices[i+1].hour - hourly_prices[0].hour) % time_frame == time_frame - 1:
                 last_price.append(hourly_prices[i+1])
                 i += 1
         i += 1    
-            
-            
-    if hourly_prices[len(hourly_prices) - 1].hour % time_frame == 0:
-        last_price.append(hourly_prices[len(hourly_prices) - 1])
-        
+    
+
+
     print(f"unique_hours= {unique_hours}")
     print(f"last_price = {len(last_price)}")
     print(f"last_price = {last_price}")
