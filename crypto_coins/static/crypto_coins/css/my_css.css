@@ -151,3 +151,30 @@ p {
   display: flex;
 }
 
+.crip {
+  margin-top: -2.3rem !important;
+  text-align: right;
+  margin-right: 5rem;
+  font-size: 0.9rem;
+}
+
+.dropdown-menu {
+  left: 50% !important;  
+  transform: translateX(-50%) !important;  /* Центрируем */
+  min-width: 150px;  /* Минимальная ширина */
+  /* margin-top: -5px !important;  Подними на 5 пикселей вверх */
+}
+
+.hour {
+  position: relative !important;  /* Сделает точку отсчёта для меню */
+}
+
+.time_menu {
+  margin-top: -20px !important;
+}
+
+.time_period {
+  margin-top: 14px !important;
+}
+
+

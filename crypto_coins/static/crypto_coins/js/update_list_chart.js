@@ -39,7 +39,7 @@ function clickButton() {
     const buttons_period = document.querySelectorAll(".period-button");
 
     if (buttons_period.length > 0) {
-        timePeriod = buttons_period[1].getAttribute("data-period");
+        timePeriod = buttons_period[2].getAttribute("data-period");
         console.log(`🔹 Time Period: ${timePeriod}`); // Берём первый токен
         fetchData();  // Загружаем данные при старте
     }
@@ -101,6 +101,9 @@ function fetchData() {
             const latestData = data.last_all_price;  // последние цены для каждой валюты
             let title = document.querySelector("title");  // Получаем таблицу
             title.innerText = tokenSymbol
+
+            let coin = document.getElementById("coin");
+            coin.innerText = data.price_list[0].name
 
             let frame = document.getElementById("frame");
             if (frame) {

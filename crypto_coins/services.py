@@ -1,175 +1,171 @@
+import time
 import logging
-from django.shortcuts import get_object_or_404
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
+from django.db import connection
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-# from webdriver_manager.chrome import ChromeDriverManager
-from bs4 import BeautifulSoup
-import time
-import requests
-import selenium
-
-from crypto_coins.models import CoinPrice 
-from crypto_coins.models import Token
-from django.db import connection
-
-
-print(f"selenium.__version__ = {selenium.__version__}")
-# from selenium.webdriver.chrome.service import  WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-# from webdriver_manager.core.utils import ChromeDriverManager
-import webdriver_manager
+from django.utils.timezone import now
+from crypto_coins.models import CoinPrice, Token  # Подставь свой путь
+from selenium.common.exceptions import WebDriverException
 
-"""Настройка логирования
-Это стандартный формат логирования, который автоматически подставляет:
-
-%(asctime)s → текущее время
-%(levelname)s → уровень логирования (INFO, ERROR и т. д.)
-%(message)s → само сообщение"""
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-def price_token_from_rialto():
-    """Функция сбора данных о цене токенов и записи в БД."""
-    # Настройка Selenium
-    service = Service(ChromeDriverManager().install())
-    options = Options()
-    options.add_argument("--headless")  # Без графического интерфейса
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    try:
-        driver = webdriver.Chrome(service=service, options=options)
-    except Exception as e:
-        print(f"❌ Ошибка запуска Selenium: {e}")
-        return None
+def fetch_prices(driver):
+    """Функция получает цены всех токенов и записывает в БД"""
+    tokens = Token.objects.only("symbol", "url_token")  # Загружаем только нужные поля
     
-    prices = []
-    tokens = Token.objects.all()
-    if tokens:
-        for item in tokens:
-
-          
-            driver.get(item.url_token)
-
-            # Ждём появления тэга
-            # try:
-            #     WebDriverWait(driver, 15).until(
-            #         EC.presence_of_element_located((By.TAG_NAME, "title"))
-            #     )
-            #     print("✅ Тэг найден!")
-            # except:
-            #     print("❌ Тэг не появился, возможно, данные подгружаются позже!")
-        
-            # print("🔥Ура !!!!!! Информацию получил !!!!!!! Обрабатываю !!!!!💪🚀")
-            # 🔥 Даем странице прогрузиться
-        
+    for token in tokens:
+        # try:
+            driver.get(token.url_token)  # Переход на сайт токена
+            WebDriverWait(driver, 10).until(lambda d: " | " in d.execute_script("return document.title"))  
+            title = driver.execute_script("return document.title")
+            price = float(title.split("|")[0].strip().replace(",", ""))
             
-            try:
-                # print("В цикле")
-                # time.sleep(5)
-                # Делаем скриншот
-                # driver.get_screenshot_as_file("screenshot.png")
-                # Получаем HTML
-                
-                # time.sleep(5)
-                # title = driver.find_element(By.TAG_NAME, "title").text
-                
-                # html = driver.page_source
-                # soup = BeautifulSoup(html, "html.parser")
+            # Запись в БД
+            CoinPrice.objects.create(price=price, token=token)
+            logging.info(f"✅ Записали в БД: {token.symbol} = {price}")
 
-                # Находим таблицы
-                # title = soup.find_all("title")
-                # print(title)
-                # eth_price = float(title[0].text.split("|")[0].strip().replace(',', ''))
-                # price = float(title[0].text.split("|")[0].strip().replace(',', ''))
-                # print(price)
-#                 Что делает этот код?
+        # except WebDriverException as e:
+        #     logging.warning(f"❌Ошибка ⚠ WebDriverException: {e}")
+        #     logging.info("🔄 браузер Перезапускаем ...")
+        #     driver.quit()  # Закрываем текущий браузер
+        #     driver = start_selenium()  # 🚀 Запускаем новый браузер    
+            
+        # except Exception as e:
+        #     logging.error(f"❌ Цикл for Ошибка получения цены {token.symbol}: {e}")
+        #     logging.info(f"✅ Закрываем браузер")
+        #     driver.quit()
+            # return
+            # logging.info(f"✅ Открываем браузер снова")
+            # driver = start_selenium()  # 🚀 Первый запуск браузера 
 
-                # Ждет, пока document.title загрузится и в нем появится " | " (разделитель цен).
-                # Извлекает title через execute_script, без find_element().
-                # Парсит цену, убирая запятые.
-                # title = driver.execute_script("return document.title;")
-                WebDriverWait(driver, 10).until(
-                    lambda d: d.execute_script("return document.title") and " | " in d.execute_script("return document.title")
-                )
-                title = driver.execute_script("return document.title;")  # Этот код берет заголовок напрямую из DOM с помощью JavaScript.
-                # print(f"✅ title = {title}")
-                price = float(title.split("|")[0].strip().replace(',', ''))
-                # print(f"✅ Цена {item.symbol} = {price}")
-                # token, _ = Token.objects.get_or_create(name="Ethereum")
-                # token = get_object_or_404(Token,name=item.name)
-                # print(f'✅ token = {token}')
-                # print(item.symbol)
-                # (ETH) Bitcoin (BTC)
-                if price:
-                    prices.append(CoinPrice(price=price, token=item))
-                    logging.info(f"🔥Запись в список prices сделана !🚀💪:Цена {item.name} = {price}")
-                    delete_entrys()
-                    
-                else:
-                    print("❌ Данные от поставщика не пришли - записывать нечего в БД")
-                    return
-                # prices[item.symbol] = price
-                
-            except Exception as e:
-                print("❌ Тэг не появился, возможно, данные подгружаются позже!")
-                continue  # Продолжаем выполнение для других токенов
-    else:
-        print("❌ Нет связи с БД")
-        return None 
-    CoinPrice.objects.bulk_create(prices)
-    logging.info(f"🔥Запись в БД  списка через bulk_create(prices) сделана !🚀💪")
-    logging.info(f"✅ Объём БД должна быть не более {1450 * len(tokens)} записей")
-        # # Закрываем браузер
-    driver.quit()
-    logging.info("✅ Следующая запись в БД через 1 минуту")
-    # delete_entrys()
-    logging.info(f"✅Кол-во записей в CoinPrice = {len(CoinPrice.objects.all())}")
+            # if driver is None:
+            #     logging.critical("❌ Не удалось запустить Selenium! Выход из программы.")
+            #     return  # 🚨 Прекращаем выполнение, если браузер не запустился
+
+    delete_entrys(tokens)
     with connection.cursor() as cursor: # размер таблицы coinprice
         cursor.execute("SELECT pg_size_pretty(pg_total_relation_size('crypto_coins_coinprice'));")
         size = cursor.fetchone()
         print(f"size = {size[0]}")
-    return True
 
+# def price_token_from_rialto():
+#     """Основной цикл: Запускает Selenium и обновляет цены бесконечно"""
+#     while True:
+#         try:
+#             logging.info("🚀 Запускаем Selenium...")
 
-def delete_entrys():
-    # logging.info(f"✅Кол-во записей в CoinPrice = {len(CoinPrice.objects.all())}")
-    if len(CoinPrice.objects.all()) > 1450 * len(tokens):
-        CoinPrice.objects.last().delete()
-   
-        # CoinPrice.objects.filter(id__lt=4).delete()
-    # print(prices)
-    # return prices
+#             # Создаем **один** браузер на весь процесс
+#             service = Service(ChromeDriverManager().install())
+#             options = Options()
+#             options.add_argument("--headless")  # Без графического интерфейса (можно убрать для тестов)
+#             options.add_argument("--disable-gpu")
+#             options.add_argument("--no-sandbox")
+            
+#             driver = webdriver.Chrome(service=service, options=options)
+#             t = 20
+#             try:
+#                 while True:
+#                     logging.info("🔄 Обновляем цены...")
+#                     fetch_prices(driver)  # Собираем данные
+                    
+#                     logging.info(f"⏳ Ожидание {t} сек перед следующей итерацией...")
+#                     time.sleep(t)  # Ждём t cекунд
+#             except WebDriverException as e:
+#                             print(f"⚠ WebDriverException: {e}")
+#                             print("🔄 Перезапускаем браузер...")
+#                             break  # Выходим из вложенного цикла, чтобы перезапустить браузер
+#             except KeyboardInterrupt:
+#                 logging.warning("⛔ Остановлено пользователем!")
+#             except Exception as e:
+#                 logging.error(f"❌ Критическая ошибка: {e}")
+#             finally:
+#                 driver.quit()  # Закрываем браузер
+#                 logging.info("🚪 Браузер закрыт")
 
-    # return tariffs
-    # # 🔥 Настройки Selenium
-    # service = Service(ChromeDriverManager().install())
-    # options = Options()
-    # options.add_argument("--headless")  # Без интерфейса
-    # options.add_argument("--disable-gpu")
-    # options.add_argument("--no-sandbox")
+#         except Exception as e:
+#             print(f"❌ Ошибка: {e}")
+#             print("🔄 Повторная попытка через 30 секунд...")
+#             time.sleep(30)  # Ждём перед повторным запуском
+# # ✅ Запускаем бесконечный цикл
 
-    # driver = webdriver.Chrome(service=service, options=options)
-    # driver.get("https://example.com")  # Заменить на реальный сайт
+# ///<<!!!!!!! Все тоже сомое, что и код выше, только без большого while и break - интересно!!!!!
 
-    # time.sleep(5)  # Даем странице прогрузиться
+def start_selenium():
+
+    """Запускает и возвращает экземпляр браузера Chrome"""
     
-    # # ✅ Считываем данные
-    # html = driver.page_source
-    # soup = BeautifulSoup(html, "html.parser")
-    
-    # price_element = soup.find("div", class_="price").text.strip().replace(",", ".")
-    # price = float(price_element)
+    try:
+        service = Service(ChromeDriverManager().install())
+        options = Options()
+        options.add_argument("--headless")  # Без графического интерфейса
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
 
-    # # ✅ Находим токен (Ethereum)
-    # token, _ = Tokens.objects.get_or_create(name="Ethereum")
+        return webdriver.Chrome(service=service, options=options)
+    except WebDriverException as e:
+        logging.error(f"❌ Ошибка запуска Selenium: {e}")
+        return None  # 🚨 Если Selenium не запустился, возвращаем None
 
-    # # ✅ Записываем цену в БД
-    # CoinPrice.objects.create(price=price, token=token)
-    # print(f"✅ Записали в БД: {token.name} = {price} USD")
-    # CoinPrice.objects.filter(token__symbol="BTC").order_by('-timestamp').first()
-    # driver.quit()
+def price_token_from_rialto():
+    """Бесконечный цикл сбора данных с автоматическим перезапуском браузера"""
+
+    driver = start_selenium()  # 🚀 Первый запуск браузера 
+
+    if driver is None:
+        logging.critical("❌ Не удалось запустить Selenium! Выход из программы.")
+        return  # 🚨 Прекращаем выполнение, если браузер не запустился
+
+    t = 40  # Интервал между запросами
+    while True:  # 🔄 Работает пока сервер не выключится
+        try:
+            logging.info("🔄 Обновляем цены...")
+            fetch_prices(driver)  # 🔥 Функция парсинга
+            logging.info(f"⏳ Следующее обновление через {t} секунд...")
+            time.sleep(t)  # Ждём t секунд
+
+        except WebDriverException as e:
+            logging.warning(f"⚠ WebDriverException: {e}")
+            logging.info("🔄 Перезапускаем браузер...")
+            driver.quit()  # Закрываем текущий браузер
+            driver = start_selenium()  # 🚀 Запускаем новый браузер NewConnectionError
+
+            if driver is None:
+                logging.critical("❌ Selenium не запустился после сбоя! Выход из цикла.")
+                break  # 🚨 Прерываем while True, если браузер не восстановился
+
+        
+        except KeyboardInterrupt:
+            logging.warning("⛔ Остановлено пользователем!")
+            break  # 🚨 Выход из бесконечного цикла
+
+        except Exception as e:
+            logging.error(f"❌ Критическая ошибка: {e}")
+            logging.info("🔄 Повторная попытка через 30 секунд...")
+            time.sleep(30)  # Ждём перед повторным запуском
+            driver.quit()  # Закрываем текущий браузер
+            driver = start_selenium()  # 🚀 Запускаем новый брауз
+    driver.quit()  # 🚪 Закрываем браузер при выходе
+    logging.info("🚪 Браузер закрыт")
+
+        
+        # finally:
+        #     driver.quit()  # Закрываем браузер
+        #     logging.info("🚪 Браузер закрыт")
+
+
+
+def delete_entrys(tokens):
+    all_entrys = CoinPrice.objects.all()
+    logging.info(f"✅Кол-во записей в CoinPrice = {len(all_entrys)}")
+    if len(all_entrys) > 1450 * len(tokens):
+        dif_entrys = len(all_entrys) - 1450 * len(tokens)
+        last_few = all_entrys.order_by('-id')[:dif_entrys]  # Получаем последние 10 записей
+        CoinPrice.objects.filter(id__in=last_few.values_list('id', flat=True)).delete()  # Удаляем их
+        # x =CoinPrice.objects.last().delete()
+        logging.info(f"❌ Удалены {dif_entrys} последние записи в БД")

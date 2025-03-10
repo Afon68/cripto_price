@@ -12,7 +12,10 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
     <meta charset="UTF-8">
- 
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "crypto_coins/favicon/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "crypto_coins/favicon/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "crypto_coins/favicon/favicon-16x16.png" %}">
+    <link rel="manifest" href="{% static "crypto_coins/favicon/site.webmanifest" %}">
     <link rel="stylesheet" href="{% static "crypto_coins/css/my_css.css" %}">
     
     <link
@@ -44,46 +47,46 @@
                     </li>
                 </ul>
                 <div class="ic">
-                    <a href="#"><img style="width: 30px;margin-inline: 1em;" src="{% static "crypto_coins/images/tg.png" %}" alt="telegram"></a>
-                    <a href="#"><img style="width: 25px;margin-inline: 1em;" src="{% static "crypto_coins/images/yt.png" %}" alt="yotube">youtube</a>
+                    <a href="https://web.telegram.org/k/" target="_blank"><img style="width: 30px;margin-inline: 1em;" src="{% static "crypto_coins/images/tg.png" %}" alt="telegram"></a>
+                    <a href="https://www.youtube.com" target="_blank"><img style="width: 25px;margin-inline: 1em;" src="{% static "crypto_coins/images/yt.png" %}" alt="yotube">youtube</a>
                 </div>
-                <ul class="navbar-nav me-auto mb-2 mx-1 mb-lg-0 tokens">
-                    <li class="nav-item dropdown ">
-                        <a class="nav-link tok dropdown-toggle text-white" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            TOKEN
-                        </a> 
-                        {% comment %} <ul class="dropdown-menu">
-                            {% for token in tokens %}
-                                 <li><a class="dropdown-item text-black" href="{% url "crypto_coins:token_price" token.symbol %}">{{token.name}}</a></li>
-                            {% endfor %} 
-                        
-                        </ul> {% endcomment %}
-                        <ul class="nav-item dropdown-menu">
-                            {% for token in tokens %}
-                                <li>
-                                    <a class="dropdown-item text-black token-button" 
-                                       href="#" data-symbol="{{ token.symbol }}">{{ token.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    
-                   
-                                                                        <!--<span class="time_frame"id="frame">Загрузка...</span>-->
-                </ul>
-                <div class="hour">
-                    </li>
-                        <ul class="navbar-nav me-auto mb-0 mx-10 mb-lg-0 time_frame">
+             
+              
+                <div class="hour mb-3">
+                    <li>
+                        <ul class="navbar-nav me-auto mb-3 mx-1 mb-lg-0 tokens">
                             <li class="nav-item dropdown ">
-                                <a class="nav-link tron dropdown-toggle text-white" href="#" role="button"
+                                <a class="nav-link tok dropdown-toggle text-white" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    TIME-FRAME                                          
+                                    TOKEN
                                 </a> 
                                 <ul class="nav-item dropdown-menu">
+                                    {% for token in tokens %}
+                                        <li>
+                                            <a class="dropdown-item text-black token-button" 
+                                            href="#" data-symbol="{{ token.symbol }}">{{ token.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <p class="nav-link mb-3 frame crip text-white" id="coin">Favorite</p>
+                    </li>  
+                </div>
+                <div class="hour mb-4">
+                    <li>
+                        <ul class="navbar-nav me-auto mb-3 mx-1 mb-lg-0 time_frame >
+                            <li class="nav-item dropdown ">
+                                <a class="nav-link tron dropdown-toggle text-white" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">                               <!--<span class="time_frame"id="frame">Загрузка...</span>-->
+                                    TIME-FRAME                                          
+                                </a> 
+                                <ul class="nav-item time_menu dropdown-menu">
                                     {% for name_frame, name_value  in time_frames %}
                                         <li>
-                                            <a class="dropdown-item text-black frame-button" 
+                                            <a class="dropdown-item  text-black frame-button" 
                                             href="#" data-frame="{{ name_value }}">{{ name_frame }}</a>
                                         </li>
                                     {% endfor %}
@@ -93,20 +96,20 @@
                        </ul>
                     </li>
                     <li class="nav-item">
-                        <p class="nav-link frame text-white" id="frame"  >Favorite plases</p>
+                        <p class="nav-link frame text-white" id="frame">Favorite</p>
                     </li>  
                 </div>
                 <div class="hour">
-                    <ul class="navbar-nav me-auto mb-2 mx-10 mb-lg-0 time_frame period">
+                    <ul class="navbar-nav me-auto mb-1 mx-10 mb-lg-0 time_frame period">
                         <li class="nav-item dropdown ">
                             <a class="nav-link tron dropdown-toggle text-white" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                     TIME-PERIOD
                             </a> 
-                            <ul class="nav-item dropdown-menu">
+                            <ul class="nav-item time_period dropdown-menu">
                                 {% for period_time,period_value in time_periods %}
                                     <li>
-                                        <a class="dropdown-item text-black period-button" 
+                                        <a class="dropdown-item text-black  period-button" 
                                             href="#" data-period="{{ period_value}}">{{ period_time }}</a>
                                     </li>
                                 {% endfor %}
@@ -114,12 +117,13 @@
                         </li>
                     </ul>
                     <li class="nav-item">
-                        <p id="period"class="nav-link frame text-white" id="period">Favorite plases</p>
+                        <p id="period" class="nav-link frame text-white">Favorite</p>
                     </li>   
-                </div> 
+                </div>
+        
+            <div>
                 <a class="navbar-brand dancing-script" href="#">AkselWebStudio</a>
             </div>
-           
         </div>
     </nav>
     <div class="toks">            
@@ -130,7 +134,7 @@
        
         <div id="all-price" class="name-cur mt-3">
             {% for token in tokens %}
-                <p>{{token.name}}</p>  
+                <p><span img class="icon" src="{% static url_icon %}" alt="..."></span>{{token.name}}</p>  
             {% endfor %}        
         </div>
         
