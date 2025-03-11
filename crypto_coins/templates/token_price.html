@@ -64,7 +64,7 @@
                                     {% for token in tokens %}
                                         <li>
                                             <a class="dropdown-item text-black token-button" 
-                                            href="#" data-symbol="{{ token.symbol }}">{{ token.name }}</a>
+                                            href="#" data-symbol="{{ token.symbol }}"> <img class="avatar" src="{{ token.url_avatar }}" alt="..."> {{ token.name }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -134,7 +134,10 @@
        
         <div id="all-price" class="name-cur mt-3">
             {% for token in tokens %}
-                <p><span img class="icon" src="{% static url_icon %}" alt="..."></span>{{token.name}}</p>  
+            <p>
+                <img class="icon" src="{% static token.url_icon %}" alt="...">
+                <span class="token-name">{{ token.name }}</span>  <!-- 🔍 Обновляем только этот текст -->
+            </p>
             {% endfor %}        
         </div>
         

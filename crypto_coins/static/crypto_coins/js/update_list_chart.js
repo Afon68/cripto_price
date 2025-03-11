@@ -145,13 +145,13 @@ function fetchData() {
             if (current) {
                 if (latestData) {
                     latestData.forEach(token => {
-                        if(token.name === token_name) {
+                        if (token.name === token_name) {
                             current.innerText = `Current ${token_name} Price: ${token.price} USD ${(token.dif > 0 ? "↑" : "↓")}`;
                             current.style.color = token.dif > 0 ? "green" : "red";
                         }
                     })
                 }
-                
+
             } else {
                 console.error("❌ Ошибка: priceElement или current не найден!");
             }
@@ -517,26 +517,57 @@ function currentAllPrice(latestData) {
     /* функциия для отображения текущей цены для каждого такена*/
     console.log(`latestData=${latestData}`)
 
-    let allPrice = document.getElementById("all-price");
-    let allPriceParag = allPrice.getElementsByTagName("p");
-    console.log(`len allPriceParag=${allPriceParag.length}`)
-    console.log(`len latestData=${latestData.length}`)
-    // latestData.forEach(priceName => {
-    //     if (allPrice) {
-    //         allPrice.innerText = `${priceName.name} ${priceName.price}`
-    //     } else {
-    //         console.error("❌ Ошибка: allPrice & latestData  не найдены!");
-    //     }
-    // })
+    // let allPrice = document.getElementById("all-price");
+    // let allPriceParag = allPrice.getElementsByTagName("p");
+    // let img = allPrice.getElementsByTagName("img");
 
-    for (let i = 0; i < allPriceParag.length; i++) {
-        for (let j = 0; j < latestData.length; j++) {
-            if (i === j) {
-                allPriceParag[i].innerText = latestData[j].dif > 0 ?`${latestData[j].name} ${latestData[j].price}↑`:`${latestData[j].name} ${latestData[j].price}↓`
-                allPriceParag[i].style.color = latestData[j].dif > 0  ? "green" : "red";
-                // priceElement.innerText = latest_price + " USD " + (latest_price > previous_price ? "↑" : "↓");
+    // console.log(`len allPriceParag=${allPriceParag.length}`)
+    console.log(`len latestData=${latestData.length}`)
+    // console.log(`len img=${img.length}`)
+
+    let icons = document.querySelectorAll(".icon");
+    console.log("📸 Найдено иконок:", icons.length);  // Должно быть >0
+    let nameElement = document.querySelectorAll(".token-name");
+    console.log("📸 Найдено элементов:", nameElement.length);
+    // if (icons.length > 0) {
+    //     icons[0].src = "https://example.com/new_icon.png";  // Проверяем изменение
+    // } else {
+    //     console.error("❌ Ошибка: Иконки не найдены!");
+    // }
+
+
+    for (let i = 0; i < latestData.length; i++) {
+        // for (let j = 0; j < latestData.length; j++) {
+        //     if (i === j) {
+        if (latestData[i]) {
+            // allPriceParag[i].innerText = latestData[i].dif > 0 ? `${latestData[i].name} ${latestData[i].price}↑` : `${latestData[i].name} ${latestData[i].price}↓`
+            // allPriceParag[i].style.color = latestData[i].dif > 0 ? "green" : "red";
+            // icons[i].src = latestData[i].url_icon;
+            console.log(`latestData[i].url_icon=${latestData[i].url_icon}`)
+            // img[i] = latestData[i].url_icon
+            // let nameElement = allPriceParag[i].querySelector(".token-name"); // 🔍 Ищем <span> для имени
+            let iconElement = icons[i]; // 🔍 Берём иконку
+
+            if (nameElement && latestData[i]) {
+                nameElement[i].innerText = latestData[i].dif > 0 ? `${latestData[i].name} ${latestData[i].price}↑` : `${latestData[i].name} ${latestData[i].price}↓`;
+                nameElement[i].style.color = latestData[i].dif > 0 ? "green" : "red";
             }
+
+            if (iconElement) {
+                iconElement.src = latestData[i].url_icon;  // ✅ Обновляем картинку
+                // img[i].src = latestData[i].url_icon
         }
+            
+            
+            /*тут я определяю у каких узлов имеется атрибут src */
+            // if (img[i].hasAttribute('src')) {
+            //     /*и присваиваю этому узлу атрибут data-images и  значение src*/
+            //     img[i].setAttribute('data-images', 'url(' + img[i].getAttribute('src') + ')');
+            // }
+        }
+        // priceElement.innerText = latest_price + " USD " + (latest_price > previous_price ? "↑" : "↓");
+        //     }
+        // }
     }
     // allPriceParag.forEach((item, i) => {
     //     allPriceParag.forEach((elem, j) => {
@@ -545,9 +576,9 @@ function currentAllPrice(latestData) {
     //         }
     //     })
 
-        
-    // })
 }
+    // })
+
 // function div2ParaElems() {
 //     const div2 = document.getElementById("div2");
 //     const div2Paras = div2.getElementsByTagName("p");

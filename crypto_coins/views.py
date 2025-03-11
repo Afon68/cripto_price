@@ -3,6 +3,7 @@ import logging
 from django.db.models import F
 from django.shortcuts import render
 from django.template import context
+from django.templatetags import static
 
 
 from .models import CoinPrice, Token
@@ -20,10 +21,12 @@ def get_latest_price_list(request,token_symbol,time_frame,period):    # ,time_fr
     last_all_price = []
     for token in tokens:
         latest_prices = CoinPrice.objects.filter(token=token).order_by('-timestamp')[:2]
-    
+        # url_icon = f"http://127.0.0.1:8000/static/crypto_coins/images/{token.symbol}.png" # 👈 Генерируем полный URL
+        url_icon = f"https://bin.bnbstatic.com/static/assets/logos/{token.symbol}.png"
+        print(f"url_icon = {url_icon}")
         if latest_prices:
             dif = round(latest_prices[0].price - latest_prices[1].price, 2)
-            last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name})
+            last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name, "url_icon": url_icon})
         else:
             "❌ Ошибка: latest_prices не найден!"
     
@@ -88,9 +91,9 @@ def get_latest_price_list(request,token_symbol,time_frame,period):    # ,time_fr
     logging.info(f"time_frame = {time_frame}") 
     if hourly_prices:
         last_price.append(hourly_prices[0])
-        i = 1            
+        i = 0            
         while i < len(hourly_prices):
-            if i > 1 and i < len(hourly_prices) - 1:
+            if i > 0 and i < len(hourly_prices) - 1:
                 if hourly_prices[i].hour != hourly_prices[i+1].hour:
                     # i += 1
                     # continue
@@ -142,11 +145,16 @@ def token_price_with_js_view(request):
     time_frames = [["1 min","1"],["5 min","5"],["15 min","15"],["30 min","30"],["1 hour","60"]]
     time_periods = {"1 hour":"1", "12 hour":"12", "24 hour": "24"}
     periods = time_periods.items()
-    url_icon = ["crypto_coins/images/ETH.png", "crypto_coins/images/BTC.png", "crypto_coins/images/SOL.png", "crypto_coins/images/STRK.png"] 
+    # url_icon = ["https://bin.bnbstatic.com/static/assets/logos/ETH.png",
+    #              "https://bin.bnbstatic.com/static/assets/logos/BTC.png",
+    #                "https://bin.bnbstatic.com/static/assets/logos/SOL.png", 
+    #                "https://bin.bnbstatic.com/static/assets/logos/STRK.png"] 
+    # url_icon = ["crypto_coins/images/ETH.png", "crypto_coins/images/BTC.png", "crypto_coins/images/SOL.png", "crypto_coins/images/STRK.png"] 
     coins = Token.objects.all()
     tokens = []
     for i in range(len(coins)):
-        tokens.append({"name": coins[i].name, "symbol": coins[i].symbol, "url_icon": url_icon[i]})
+        url_avatar = f"https://bin.bnbstatic.com/static/assets/logos/{coins[i].symbol}.png"
+        tokens.append({"name": coins[i].name, "symbol": coins[i].symbol, "url_avatar": url_avatar})
     context = {
         "tokens": tokens,
         "time_frames": time_frames,
@@ -155,3 +163,5 @@ def token_price_with_js_view(request):
     return render(request, "token_price.html", context)
 
 
+# https://bin.bnbstatic.com/static/assets/logos/BTC.png
+# https://bin.bnbstatic.com/static/assets/logos/ETH.png
