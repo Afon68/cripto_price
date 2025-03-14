@@ -57,4 +57,10 @@ def start_selenium_if_needed(latest_prices):
         last_fetch_thread = threading.Thread(target=price_token_from_rialto, daemon=True)
         last_fetch_thread.start()
 
+def price_change_percentage(back_price, now_price):
+    # функция  для для вычисления изменения числа в %
+    z = round(100 - 100 * now_price / back_price, 2)      
+    
+    return z
+
    

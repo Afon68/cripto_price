@@ -1,0 +1,267 @@
+
+body {
+  font-family: sans-serif !important; /* Вернёт стандартный шрифт */
+ 
+  
+}
+
+
+.contai{
+  display: flex;
+  justify-content: space-between; /* Расстояние между элементами */
+  align-items: center;
+  gap: 0px; /* Отступ между графиком и таблицей */
+}
+
+#tokenChart {
+  padding-right: 1rem !important;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* .table-container {
+  width: 35%;
+} */
+/* .current {
+  color:red
+} */
+
+#table-container {
+  border-collapse: collapse; /* Убирает отступы между ячейками */
+  margin-right: 1rem!important;
+  /* min-width: auto !important; */
+  /* overflow-x: auto; */
+  width: 100%;
+  
+}
+
+.tab {
+  margin-right: 1rem!important;
+}
+
+#table-container th, #table-container td {
+  border: 1px solid black; /* Чёрные границы */
+  padding: 2px; /* Отступ внутри ячеек */
+  text-align: center;
+}
+
+.container {
+  max-width: none !important; /* Если Bootstrap сжимает контейнер */
+}
+
+table {
+  padding-right: 1rem;
+  margin-right: 2rem!important;
+}
+
+.col-lg-4 {
+  padding-right: 2rem;
+  padding-top: 2rem;
+}
+
+.dancing-script {
+  font-family: "Dancing Script", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  display: inline-block;
+  
+  /* Обязательно для корректной работы transform */
+  transform: rotate(-15deg);
+  /* Угол поворота в градусах */
+  transform-origin: center;
+  /* Точка, вокруг которой происходит вращение */
+  font-size: 24px;
+  /* Размер */
+  text-shadow: 5px 5px 5px rgba(252, 251, 251, 0.7);
+  margin-left: 5rem;
+  padding-left: -5rem;
+  margin-right: -5rem;
+}
+
+
+.dancing-script:hover{
+
+  text-shadow: none;   /*5px 5px rgb(255, 255, 255);*/
+  color: #7f7e7e;
+  
+}
+
+.navbar-nav {
+  margin-left: 8rem !important;
+  
+}
+
+.time_frame {
+  margin-left: 0rem !important;
+  margin-right: 2rem !important;
+}
+
+.tokens {
+  margin-right: 2rem !important;
+}
+
+.period {
+  margin-left: 0rem !important;
+  padding-left: 0rem !important;
+}
+
+.frame {
+  margin-right: 0rem ;
+  font-size: 0.8rem;
+  padding-bottom: 0rem !important;
+  margin-top: -1.5rem !important;
+  padding-top: 0rem !important;
+  text-align: center;
+}
+
+.tok {
+  font-size: 2rem;
+}
+
+.hour {
+  margin-right: 0rem ;
+ 
+  padding-bottom: 0rem !important;
+  margin-top: 0rem !important;
+  padding-top: 0rem !important;
+}
+
+.tron {
+  margin-right: 0rem ;
+  
+  padding-bottom: 0rem !important;
+  margin-top: 1rem !important;
+  padding-top: 0rem !important;
+}
+
+.text {
+  padding-left: 1rem !important;
+  width: 700px;
+  /* margin-top: 3rem !important; */
+  /* padding: 2rem!important; */
+}
+
+.name-cur {
+  /* justify-content: right; */
+  margin-top: 0rem;
+  text-align:start; 
+  width:1200px;
+  position: absolute;
+  transform: translate(48%, 0%)
+  /* display: inline-block; */
+}
+
+p {
+  display: inline;
+  /* background-color: rgb(37, 36, 36);
+  color:white; */
+  margin-top: 0rem;
+  padding-right: 1rem;
+}
+
+.toks {
+  display: flex;
+  width: 100%;
+}
+
+.crip {
+  margin-top: -2.3rem !important;
+  text-align: right;
+  margin-right: 5rem;
+  font-size: 0.9rem;
+}
+
+.dropdown-menu {
+  left: 50% !important;  
+  transform: translateX(-50%) !important;  /* Центрируем */
+  min-width: 150px;  /* Минимальная ширина */
+  /* margin-top: -5px !important;  Подними на 5 пикселей вверх */
+}
+
+.hour {
+  position: relative !important;  /* Сделает точку отсчёта для меню */
+  list-style:none
+ 
+}
+
+.fr {
+  height: 80px;
+  position: absolute;
+  transform: translate(0, -25%)
+  /* margin-bottom: 3rem !important; */
+}
+
+.drop {
+  padding-bottom: -4rem !important;
+  position: absolute;
+  transform: translate(0, 5%)
+}
+
+.time_menu {
+  margin-top: -20px !important;
+}
+
+.time_period {
+  margin-top: 14px !important;
+  list-style:none
+}
+
+.icon {
+  width: 18px;
+}
+
+.avatar {
+  width: 16px;
+}
+
+#coin {
+  width: 16px;
+}
+
+.tema {
+  margin-left: -9rem;
+  margin-bottom: 1rem;
+ 
+}
+
+.sun {
+  text-decoration: none; 
+}
+
+.dark-mode {
+  background-color: #212223;
+  color: rgb(217, 190, 11);
+}
+
+.dark-mode a {
+  color: #bb86fc;  /* Лиловый цвет ссылок */
+}
+/* График на всю ширину на маленьких экранах */
+@media (max-width: 769px) {
+    #tokenChart {
+        width: 100%; 
+    }
+    #table-container {
+        width: 100%;
+    }
+}
+
+.container-fluid {
+  padding: 1rem !important;
+  margin: 1rem !important;
+  max-width: 100% !important;
+  overflow: hidden;
+}
+/* .row {
+  margin: 0 !important; 
+  justify-content: flex-start !important;
+  flex-wrap: wrap !important;
+} */
+
+/* .col-lg-4, .col-md-6, .col-sm-12 {
+  padding: 0 !important;
+} */
+
+
+

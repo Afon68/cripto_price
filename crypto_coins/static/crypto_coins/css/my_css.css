@@ -1,187 +1,131 @@
-
 body {
-  font-family: sans-serif !important; /* Вернёт стандартный шрифт */
-}
+    font-family: sans-serif !important; /* Вернёт стандартный шрифт */
+    
+    
+  }
 
+  #table-container {
+    border-collapse: collapse; /* Убирает отступы между ячейками */
+    /* margin-right: 1rem!important; */
+    /* min-width: auto !important; */
+    /* overflow-x: auto; */
+    width: 100%; 
+  }
 
-.ccontainer-fluid {
-  display: flex;
-  justify-content: space-between; /* Расстояние между элементами */
-  align-items: center;
-  gap: 0px; /* Отступ между графиком и таблицей */
-}
+  .tab {
+    padding-right: 1rem;
+  }
 
-.chart-container {
-  width: 75%;
-  margin-right: 1rem;
-}
+  #table-container th, #table-container td {
+    border: 1px solid black; /* Чёрные границы */
+    padding: 2px; /* Отступ внутри ячеек */
+    text-align: center;
+  }
 
-/* .table-container {
-  width: 35%;
-} */
-/* .current {
-  color:red
-} */
-
-#table-container {
-  border-collapse: collapse; /* Убирает отступы между ячейками */
-  width: 100%; /* Полная ширина */
-  margin-right: 2rem;
-}
-
-#table-container th, #table-container td {
-  border: 1px solid black; /* Чёрные границы */
-  padding: 2px; /* Отступ внутри ячеек */
-  text-align: center;
-}
-
-.container {
-  max-width: none !important; /* Если Bootstrap сжимает контейнер */
-}
-
-table {
-  padding-right: 2rem;
-}
-
-.col-lg-4 {
-  padding-right: 2rem;
-  padding-top: 2rem;
-}
-
-.dancing-script {
-  font-family: "Dancing Script", serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  display: inline-block;
-  /* Обязательно для корректной работы transform */
-  transform: rotate(-15deg);
-  /* Угол поворота в градусах */
-  transform-origin: center;
-  /* Точка, вокруг которой происходит вращение */
-  font-size: 24px;
-  /* Размер */
-  text-shadow: 5px 5px 5px rgba(252, 251, 251, 0.7);
-  margin-left: 5rem;
-  padding-left: -5rem;
-  margin-right: -5rem;
-}
-
-
-.dancing-script:hover{
-
-  text-shadow: none;   /*5px 5px rgb(255, 255, 255);*/
-  color: #7f7e7e;
+  .icon {
+    width: 18px;
+  }
   
-}
-
-.navbar-nav {
-  margin-left: 8rem !important;
+  .avatar {
+    width: 16px;
+  }
   
-}
+  #coin {
+    width: 16px;
+  }
 
-.time_frame {
-  margin-left: 0rem !important;
-  margin-right: 2rem !important;
-}
+  .name-cur {
+    display:inline-flex;
+    
+  }
 
-.tokens {
-  margin-right: 2rem !important;
-}
+  p{
+    padding-right: 1rem;
+    margin-bottom:-1rem; 
+  }
 
-.period {
-  margin-left: 0rem !important;
-  padding-left: 0rem !important;
-}
+  .tok {
+    font-size: 20px;
+    padding-top: -8px !important;
+  }
 
-.frame {
-  margin-right: 0rem ;
-  font-size: 0.8rem;
-  padding-bottom: 0rem !important;
-  margin-top: -1.5rem !important;
-  padding-top: 0rem !important;
-  text-align: center;
-}
+  .tron {
+    font-size: 15px;
+    
+  }
 
-.tok {
-  font-size: 2rem;
-}
+  /* .nav-link {
+    padding-bottom: -0.5rem!important;
+  } */
 
-.hour {
-  margin-right: 0rem ;
- 
-  padding-bottom: 0rem !important;
-  margin-top: 0rem !important;
-  padding-top: 0rem !important;
-}
+  .frame {
+    font-size: 12px;
+    position: absolute;
+    transform: translate(0, -55%)
+  }
 
-.tron {
-  margin-right: 0rem ;
+  /* .rom {
+    position: absolute;
+    transform: translate(0, -50%)
+  }  */
+
+  .crip {
+    display:inline-block;
+    text-align: center;
+    margin-bottom: -1rem !important;
+    font-size: 12px;
+    margin-left: 1rem;
+    margin-left: 1rem; 
+   
+    position: absolute;
+    transform: translate(0, -40%)
+  }
+
+  .crov {
+    margin-top: -0.4rem;
+    margin-right: 1rem;
+  } 
+  .pen {
+    margin-right: 1rem;
+  }
+
+  .dancing-script {
+    font-family: "Dancing Script", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    display: inline-block;
+    
+    /* Обязательно для корректной работы transform */
+    transform: rotate(-15deg);
+    /* Угол поворота в градусах */
+    transform-origin: center;
+    /* Точка, вокруг которой происходит вращение */
+    font-size: 24px;
+    /* Размер */
+    text-shadow: 5px 5px 5px rgba(252, 251, 251, 0.7);
+    margin-left: 5rem;
+    padding-left: -5rem;
+    margin-right: -5rem;
+  }
   
-  padding-bottom: 0rem !important;
-  margin-top: 1rem !important;
-  padding-top: 0rem !important;
-}
-
-.text {
-  padding-left: 1rem !important;
-  width: 700px;
-  /* margin-top: 3rem !important; */
-  /* padding: 2rem!important; */
-}
-
-.name-cur {
-  /* justify-content: right; */
-  margin-top: 0rem;
-  text-align:start; 
-  width: 900px;
   
-  /* display: inline-block; */
-}
+  .dancing-script:hover{
+  
+    text-shadow: none;   /*5px 5px rgb(255, 255, 255);*/
+    color: #7f7e7e;
+    
+  }
 
-p {
-  display: inline;
-  /* background-color: rgb(37, 36, 36);
-  color:white; */
-  margin-top: 0rem;
-  padding-right: 1rem;
-}
-
-.toks {
-  display: flex;
-}
-
-.crip {
-  margin-top: -2.3rem !important;
-  text-align: right;
-  margin-right: 5rem;
-  font-size: 0.9rem;
-}
-
-.dropdown-menu {
-  left: 50% !important;  
-  transform: translateX(-50%) !important;  /* Центрируем */
-  min-width: 150px;  /* Минимальная ширина */
-  /* margin-top: -5px !important;  Подними на 5 пикселей вверх */
-}
-
-.hour {
-  position: relative !important;  /* Сделает точку отсчёта для меню */
-}
-
-.time_menu {
-  margin-top: -20px !important;
-}
-
-.time_period {
-  margin-top: 14px !important;
-}
-
-.icon {
-  width: 16px;
-}
-
-.avatar {
-  width: 16px;
-}
-
+  .sun {
+    text-decoration: none; 
+  }
+  
+  .dark-mode {
+    background-color: #212223;
+    color: rgb(217, 190, 11);
+  }
+  
+  .dark-mode a {
+    color: #bb86fc;  /* Лиловый цвет ссылок */
+  }

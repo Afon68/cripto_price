@@ -16,20 +16,32 @@ from .services import price_token_from_rialto
 from .utils import start_selenium_if_needed
 
 
+
 def get_latest_price_list(request,token_symbol,time_frame,period):    # ,time_frame
     tokens = Token.objects.all()
     last_all_price = []
     for token in tokens:
         latest_prices = CoinPrice.objects.filter(token=token).order_by('-timestamp')[:2]
-        # url_icon = f"http://127.0.0.1:8000/static/crypto_coins/images/{token.symbol}.png" # 👈 Генерируем полный URL
+        back_12_hours = CoinPrice.objects.filter(token=token,timestamp__gte=now() - timedelta(hours=period)).order_by('timestamp')[1]
         url_icon = f"https://bin.bnbstatic.com/static/assets/logos/{token.symbol}.png"
+        # url_icon = f"http://127.0.0.1:8000/static/crypto_coins/images/{token.symbol}.png" # 👈 Генерируем полный URL
         print(f"url_icon = {url_icon}")
+        # функция  для для вычисления изменения числа в %
         if latest_prices:
-            dif = round(latest_prices[0].price - latest_prices[1].price, 2)
-            last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name, "url_icon": url_icon})
+            if back_12_hours:
+                price_change_percentage= (round(100 - 100 * latest_prices[0].price / back_12_hours.price, 2)) * (-1)
+                print(f"✅ back_12_hours = {back_12_hours.price}")
+                dif = round(latest_prices[0].price - latest_prices[1].price, 2)
+                last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
+                                        "url_icon": url_icon,"price_change_percentage": price_change_percentage })
+            else:
+                dif = round(latest_prices[0].price - latest_prices[1].price, 2)
+                last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
+                                            "url_icon": url_icon,"price_change_percentage": 0.00 })        
         else:
-            "❌ Ошибка: latest_prices не найден!"
-    
+            "❌ Ошибка: объектов в latest_prices нет!"
+      # За последние 24 часа  days
+    print(f"back_12_hours = {back_12_hours}")
     # if latest_prices:
     #     dif_time = now() - latest_prices[0].timestamp
     #     print(f"🔍 Проверка в views времени последней записи : {dif_time},{latest_prices[0].token.name}")

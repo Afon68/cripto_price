@@ -126,7 +126,7 @@ def price_token_from_rialto():
         try:
             logging.info("🔄 Обновляем цены...")
             fetch_prices(driver)  # 🔥 Функция парсинга
-            logging.info(f"⏳ Следующее обновление через {t} секунд...")
+            logging.info(f"⏰ Следующее обновление через {t} секунд...")
             time.sleep(t)  # Ждём t секунд
 
         except WebDriverException as e:
@@ -162,11 +162,11 @@ def price_token_from_rialto():
 
 def delete_entrys(tokens):
     all_entrys = CoinPrice.objects.all()
-    logging.info(f"✅Кол-во записей в CoinPrice = {len(all_entrys)}")
+    logging.info(f"🧮 Кол-во записей в CoinPrice = {len(all_entrys)}")
     if len(all_entrys) > 1450 * len(tokens):
         dif_entrys = len(all_entrys) - 1450 * len(tokens)  # - кол-во записей для удаления 
         last_few = all_entrys.order_by('id')[:dif_entrys]  # Получаем последние 10 записей
         CoinPrice.objects.filter(id__in=last_few.values_list('id', flat=True)).delete()  # Удаляем их
         # x =CoinPrice.objects.last().delete()
-        logging.info(f"❌ Удалены {dif_entrys} последние записи в БД")
-        logging.info(f"✅Кол-во записей в CoinPrice = {len(all_entrys) - dif_entrys}")
+        logging.info(f"🗑🧺 Удалены {dif_entrys} последние записи в БД")
+        logging.info(f"🧮 Кол-во записей в CoinPrice = {len(all_entrys) - dif_entrys}")

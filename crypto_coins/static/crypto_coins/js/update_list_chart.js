@@ -5,6 +5,7 @@ let timePeriod;
 function clickButton() {
     console.log("✅ Работает clickButton");
 
+
     const buttons_time = document.querySelectorAll(".token-button");
 
     if (buttons_time.length > 0) {
@@ -59,6 +60,23 @@ function clickButton() {
 // Ждём, пока DOM загрузится
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM загружен!");
+    // чтобы по умолчанию была светлая тема(если не надо, можно закоментить)
+    document.body.classList.remove("dark-mode");
+    // 🔄 Проверяем, была ли тёмная тема раньше
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+
+    document.getElementById("theme-toggle").addEventListener("click", function () {
+        document.body.classList.toggle("dark-mode");
+        // 💾 Сохраняем тему в localStorage
+        if (document.body.classList.contains("dark-mode")) {
+            localStorage.setItem("theme", "dark");
+        } else {
+            localStorage.setItem("theme", "light");
+        }
+    })
+
     // let current = document.getElementById("current");
     // console.log("🔍 Найден элемент:", current); // Проверяем, найден ли элемент
 
@@ -102,8 +120,12 @@ function fetchData() {
             let title = document.querySelector("title");  // Получаем таблицу
             title.innerText = tokenSymbol
 
-            let coin = document.getElementById("coin");
-            coin.innerText = data.price_list[0].name
+            let coin = document.getElementById("coin");     // favor
+            // coin.innerText = data.price_list[0].name
+            coin.src = `https://bin.bnbstatic.com/static/assets/logos/${tokenSymbol}.png`
+
+            let favor = document.getElementById("favor");
+            favor.innerText = data.price_list[0].name
 
             let frame = document.getElementById("frame");
             if (frame) {
@@ -158,6 +180,8 @@ function fetchData() {
 
             let history = document.getElementById("history-price");
             history.innerText = `${token_name} Price History `
+
+
             // let current = document.getElementById("current");
             // console.log("🔍 Найден элемент:", current); // Проверяем, найден ли элемент
 
@@ -529,6 +553,8 @@ function currentAllPrice(latestData) {
     console.log("📸 Найдено иконок:", icons.length);  // Должно быть >0
     let nameElement = document.querySelectorAll(".token-name");
     console.log("📸 Найдено элементов:", nameElement.length);
+    let proc = document.querySelectorAll(".proc");
+
     // if (icons.length > 0) {
     //     icons[0].src = "https://example.com/new_icon.png";  // Проверяем изменение
     // } else {
@@ -548,7 +574,7 @@ function currentAllPrice(latestData) {
             // let nameElement = allPriceParag[i].querySelector(".token-name"); // 🔍 Ищем <span> для имени
             let iconElement = icons[i]; // 🔍 Берём иконку
 
-            if (nameElement && latestData[i]) {
+            if (nameElement) {
                 nameElement[i].innerText = latestData[i].dif > 0 ? `${latestData[i].name} ${latestData[i].price}↑` : `${latestData[i].name} ${latestData[i].price}↓`;
                 nameElement[i].style.color = latestData[i].dif > 0 ? "green" : "red";
             }
@@ -556,9 +582,14 @@ function currentAllPrice(latestData) {
             if (iconElement) {
                 iconElement.src = latestData[i].url_icon;  // ✅ Обновляем картинку
                 // img[i].src = latestData[i].url_icon
-        }
-            
-            
+            }
+
+            if (proc) {
+                proc[i].innerText = latestData[i].price_change_percentage > 0 ? `+${latestData[i].price_change_percentage}%`: `${latestData[i].price_change_percentage}%`
+                proc[i].style.color = latestData[i].price_change_percentage > 0 ? "green" : "red";
+            }
+
+
             /*тут я определяю у каких узлов имеется атрибут src */
             // if (img[i].hasAttribute('src')) {
             //     /*и присваиваю этому узлу атрибут data-images и  значение src*/
@@ -577,7 +608,7 @@ function currentAllPrice(latestData) {
     //     })
 
 }
-    // })
+// })
 
 // function div2ParaElems() {
 //     const div2 = document.getElementById("div2");
