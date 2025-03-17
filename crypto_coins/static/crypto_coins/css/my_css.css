@@ -123,9 +123,86 @@ body {
   
   .dark-mode {
     background-color: #212223;
-    color: rgb(217, 190, 11);
+    color: rgb(254, 254, 253);
+    
   }
   
   .dark-mode a {
-    color: #bb86fc;  /* Лиловый цвет ссылок */
+    color: #fbfafb;  /* Лиловый цвет ссылок */
   }
+
+  .navbar a:hover {
+    color:#4bd6e2 !important;
+  }
+
+  .title {
+    text-align: center;
+    text-shadow: 5px 5px 5px rgba(5, 5, 5, 0.4);
+    
+  }
+
+  .description {
+    list-style-type: none;
+  }
+
+  .screen {
+    width: 100%;
+    box-shadow: 5px 5px 10px 1px rgba(8, 8, 8, 0.4);
+  }
+
+  /* .forward {
+    color: red;
+    font-size: 30px;
+    text-decoration: none;
+    text-shadow: 5px 5px 5px rgb(185, 183, 183); 
+  } */
+
+  .forward-line {
+    text-align: center;
+  }
+
+  .forward {
+    padding: 8px 15px;
+    background-color: #1404f8;
+    color: white;
+    font-size: 30px;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    /* font-weight: bold; */
+    display: inline-block;
+    box-shadow: 5px 5px 10px 1px rgba(8, 8, 8, 0.4);
+    text-shadow: 5px 5px 5px rgba(5, 5, 5, 0.4);
+  }
+
+  .forward:hover {
+    background-color: aliceblue;
+    color:red;
+  }
+
+  .ticker-wrapper {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    /* background: black; */
+    padding: 10px 0px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.ticker {
+    /* display: inline-flex; */
+    display: flex;
+    gap: 50px;  /* Расстояние между элементами */
+    white-space: nowrap;
+    animation: tickerMove 80s linear infinite;
+}
+
+@keyframes tickerMove {
+    from {
+        transform: translateX(10%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}

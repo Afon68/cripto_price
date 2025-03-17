@@ -4,6 +4,9 @@ from django.db.models import F
 from django.shortcuts import render
 from django.template import context
 from django.templatetags import static
+from urllib3 import request
+
+from cripto_currency.settings import DEBUG
 
 
 from .models import CoinPrice, Token
@@ -131,7 +134,6 @@ def get_latest_price_list(request,token_symbol,time_frame,period):    # ,time_fr
     prices_with_diff = []
     if last_price:
         for i in range(len(last_price)):
-            last_price[i].timestamp = localtime(last_price[i].timestamp).strftime("%d.%m.%Y %H:%M:%S")
             if i != len(last_price) - 1:
                 diff = round_number(last_price[i].price) - round_number(last_price[i+1].price)  # ✅ Вычитаем здесь
                 if diff > 0:
@@ -175,5 +177,5 @@ def token_price_with_js_view(request):
     return render(request, "token_price.html", context)
 
 
-# https://bin.bnbstatic.com/static/assets/logos/BTC.png
-# https://bin.bnbstatic.com/static/assets/logos/ETH.png
+def hello_view(request):
+    return render(request, "hello.html")

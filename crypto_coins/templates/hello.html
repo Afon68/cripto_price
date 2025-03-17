@@ -1,0 +1,64 @@
+{% extends "base_token.html" %}
+{% load static %}
+
+{% block content %}
+<body class="dark-mode">
+    <div>
+        <div class="tema  mx-2 mt-2">
+            <a class="sun" id="theme-toggle" href="#">🌙🌞</a>
+        </div>
+        <h1 class="title mt-5 mb-5">
+            HELLO MY FRIEND
+        </h1>
+    </div>
+    <div class="container-fluid toks">
+        <div class="row">
+            <ul class="col-lg-6 col-md-12 col-sm-12 description">
+                <li>This site is an interactive platform for tracking cryptocurrency prices, focused on conveniently displaying of up-to-date data.</li>
+                <li>🔹 Main functions of the site:</li>
+                <li>✅ Display of the current Bitcoin price - The rate is updated in real time.</li>
+                <li>✅ Change chart - Visualization of price dynamics using the Chart.js library.</li>
+                <li>✅ Price table - Includes time, asset value and price change.</li>
+                <li>✅ Color indication - Price increases and decreases are highlighted in red and green for clarity.</li>
+                <li>✅ The cryptocurrency rate is updated in real time using fetch() - to receive data from the API.</li>
+                <li>🔹 Technical features:</li>
+                <li>🔸 Bootstrap is used for responsive layout.</li>
+                <li>🔸 The structure is built on container-fluid and row, providing flexibility in the arrangement of elements.</li>
+                <li>🔸 CSS styling allows you to adapt the site to different devices.</li>
+                <li>🔹 Adaptability:</li>
+                <li>📱 Mobile version – The chart and table occupy the entire width.</li>
+                <li>🖥️ Desktop version – The chart and table are arranged in two columns (col-lg-8 and col-lg-4).</li>
+                <li>Аs a result: this is a convenient and visually pleasing tool for monitoring cryptocurrencies, focused on user convenience! 🚀</li>
+            </ul>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <img class="screen" src="{% static "crypto_coins/images/screen.png" %}" alt="screen">
+            </div>    
+        </div>
+    </div>
+    <div class="forward-line mt-5">
+        <a class="forward" href="{% url "crypto_coins:token_price" %}" >Forward to crypto🚀</a>
+    </div>
+    <script src="{% static 'crypto_coins/js/update_list_chart.js' %}"></script>
+</body> 
+{% endblock %}
+
+{% comment %} <li>Этот сайт представляет собой интерактивную платформу для отслеживания цен на криптовалюты, ориентированную на удобное отображение актуальных данных.</li>
+
+        <li>🔹 Основные функции сайта:</li>
+        <li>✅ Отображение текущей цены Bitcoin – Курс обновляется в реальном времени.</li>
+        <li>✅ График изменений – Визуализация динамики цен с использованием библиотеки Chart.js.</li>
+        <li>✅ Таблица цен – Включает время, стоимость актива и изменение цены.</li>
+        <li>✅ Цветовая индикация – Рост и падение цен выделены красными и зелёными цветами для наглядности.</li>
+        <li>✅ Курс криптовалют обновляется в реальном времени при помощи fetch() – для получения данных с API.</li>
+
+        <li>🔹 Технические особенности:</li>
+        <li>🔸 Используется Bootstrap для адаптивной вёрстки.</li>
+        <li>🔸 Структура построена на container-fluid и row, обеспечивая гибкость расположения элементов.</li>
+        <li>🔸 CSS-стилизация позволяет адаптировать сайт под разные устройства.</li>
+
+
+        <li>🔹 Адаптивность:</li>
+        <li>📱 Мобильная версия – График и таблица занимают всю ширину.</li>
+        <li>🖥️ Десктопная версия – График и таблица расположены в две колонки (col-md-8 и col-md-4).</li>
+
+        <li>В итоге: это удобный и визуально приятный инструмент для мониторинга криптовалют, ориентированный на удобство пользователей! 🚀</li> {% endcomment %}

@@ -4,64 +4,93 @@ let timePeriod;
 // Функция для навешивания обработчиков событий
 function clickButton() {
     console.log("✅ Работает clickButton");
-
-
+    // if (buttons_time.length > 0) {
+    //     tokenSymbol = buttons_time[1].getAttribute("data-symbol");  // Берём первый токен
+    //     // fetchData();  // Загружаем данные при старте
+    // }
     const buttons_time = document.querySelectorAll(".token-button");
-
-    if (buttons_time.length > 0) {
-        tokenSymbol = buttons_time[1].getAttribute("data-symbol");  // Берём первый токен
-        // fetchData();  // Загружаем данные при старте
-    }
-
     buttons_time.forEach(button => {
         button.addEventListener("click", function (event) {
             event.preventDefault();  // Отменяем стандартное действие <a>
             tokenSymbol = this.getAttribute("data-symbol");  // Получаем символ токена
             console.log(`🔹 Выбран токен: ${tokenSymbol}`);
+            saveSelectedToken();
             fetchData();  // Загружаем данные для нового токена
         });
     });
+    
+    // if (buttons_frame.length > 0) {
+    //     timeFrame = buttons_frame[3].getAttribute("data-frame");  // Берём первый токен
+    //     // fetchData();  // Загружаем данные при старте
+    // }
     const buttons_frame = document.querySelectorAll(".frame-button");
-
-    if (buttons_frame.length > 0) {
-        timeFrame = buttons_frame[3].getAttribute("data-frame");  // Берём первый токен
-        // fetchData();  // Загружаем данные при старте
-    }
-
     buttons_frame.forEach(button => {
         button.addEventListener("click", function (event) {
             event.preventDefault();  // Отменяем стандартное действие <a>
             timeFrame = this.getAttribute("data-frame");  // Получаем символ токена
             console.log(`🔹 Выбран frame: ${timeFrame}`);
+            saveSelectedFrame()
             fetchData();  // Загружаем данные для нового токена
         });
     });
-
+    // if (buttons_period.length > 0) {
+    //     timePeriod = buttons_period[2].getAttribute("data-period");
+    //     console.log(`🔹 Time Period: ${timePeriod}`); // Берём первый токен
+    //     fetchData();  // Загружаем данные при старте
+    // }
     const buttons_period = document.querySelectorAll(".period-button");
-
-    if (buttons_period.length > 0) {
-        timePeriod = buttons_period[2].getAttribute("data-period");
-        console.log(`🔹 Time Period: ${timePeriod}`); // Берём первый токен
-        fetchData();  // Загружаем данные при старте
-    }
-
     buttons_period.forEach(button => {
         button.addEventListener("click", function (event) {
             event.preventDefault();  // Отменяем стандартное действие <a>
             timePeriod = this.getAttribute("data-period");  // Получаем символ токена
             console.log(`🔹 Выбран Period: ${timePeriod}`);
+            saveSelectedPeriod()
             fetchData();  // Загружаем данные для нового токена
         });
     });
+    fetchData()
     console.log(`🔹 Текущий токен: ${tokenSymbol}`);
     // console.log(`🔹 Текущий токен: ${timeFrame}`);
 }
-
+////////////////Начало работы файла/////////////////////////////////////////////////////////////////////////////
 // Ждём, пока DOM загрузится
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM загружен!");
+    savedToken = localStorage.getItem("selectedToken")
+    if (savedToken) {
+        tokenSymbol = savedToken;  // Устанавливаем сохранённый токен
+        console.log(`✅ Загруженный токен: ${tokenSymbol}`);
+    } else {
+        console.log(`⚠️ Токен не найден в localStorage, выбираем стандартный`);
+        tokenSymbol = "BTC"
+    }
+
+    savedFrame = localStorage.getItem("selectedFrame")
+    if (savedFrame) {
+        timeFrame = savedFrame;  // Устанавливаем сохранённый токен
+        console.log(`✅ Загруженный Time-Frame: ${timeFrame}`);
+    } else {
+        console.log(`⚠️ Time-Frame не найден в localStorage, выбираем стандартный`);
+        timeFrame = 30
+    }
+
+    savedPeriod = localStorage.getItem("selectedPeriod")
+    if (savedPeriod) {
+        timePeriod = savedPeriod;  // Устанавливаем сохранённый токен
+        console.log(`✅ Загруженный Time-Period: ${timePeriod}`);
+        clickButton()
+    } else {
+        console.log(`⚠️ Период не найден в localStorage, выбираем стандартный`);
+        timePeriod = 24
+        clickButton()
+    }
+
+
     // чтобы по умолчанию была светлая тема(если не надо, можно закоментить)
     document.body.classList.remove("dark-mode");
+    // localStorage.removeItem("selectedToken"); // Удаляем сохранённое значение
+
+
     // 🔄 Проверяем, была ли тёмная тема раньше
     if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark-mode");
@@ -75,6 +104,15 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             localStorage.setItem("theme", "light");
         }
+        
+    // if (savedToken) {
+    //     console.log(`Загружаем токен: ${tokenSymbol}`);
+    //     clickButton()
+    // }
+    // else  clickButton(); 
+
+    
+
     })
 
     // let current = document.getElementById("current");
@@ -87,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //     console.error("❌ Ошибка: элемент с id='current' не найден!");
     // }
 
-    clickButton();  // Запускаем обработчик кнопок
+    // clickButton();  // Запускаем обработчик кнопок
 });
 
 
@@ -108,6 +146,8 @@ setInterval(() => {
 
 // setInterval(clickButton, 60000);  // 🔄 Обновляем цену каждые 5 секунд
 // clickButton()  // 🔥 Запускаем сразу при загрузке страниц
+
+
 
 function fetchData() {
 
@@ -205,7 +245,8 @@ function fetchData() {
 
             for (let elem of data.price_list) {
                 let row = table.insertRow(-1);  // Добавляем новую строку
-                row.insertCell(0).innerText = elem.timestamp;  // Время
+                // let localTime = convertToLocalTime(data.price_list.timestamp);
+                row.insertCell(0).innerText = convertISOToLocal(elem.timestamp).replace(","," ");  // Время
 
                 /*let priceCell = row.insertCell(1)
                 if (elem.diff > 0) priceCell.innerText = elem.price + " ▲";  // Цена
@@ -404,7 +445,8 @@ function updatechartInstance(getData) {
     const ctx = document.getElementById('tokenChart').getContext('2d');
     // console.log(`ctx = ${document.getElementById('chartInstance')}`)
 
-    const labels = getData.price_list.reverse().map(entry => entry.timestamp.replace('20', ""));  // Метки оси X (время)
+    const labels = getData.price_list.reverse().map(entry => convertISOToLocal(entry.timestamp).replace(/20|,/gi, () => ""));
+    // var result = string .replace(/20|,/gi, () => "");   // Метки оси X (время)
     const prices = getData.price_list.map(entry => entry.price);  // Данные оси Y (цены)
 
     if (chartInstance === null) {
@@ -537,7 +579,7 @@ function updatechartInstance(getData) {
 // Теперь график перерисовывается красиво и плавно, без грубых скачков! 🚀📊✨
 
 
-function currentAllPrice(latestData) {
+function currentAllPrices(latestData) {
     /* функциия для отображения текущей цены для каждого такена*/
     console.log(`latestData=${latestData}`)
 
@@ -616,6 +658,53 @@ function currentAllPrice(latestData) {
 //     const num = div2Paras.length;
 //     alert(`There are ${num} paragraph in #div2`);
 //   }
+function currentAllPrice(latestData) {
+    let tickerContainer = document.querySelector("#all-price");
+
+    if (!tickerContainer) return;
+
+    let tickerHTML = latestData.map(token => {
+        let color = token.dif > 0 ? "green" : "red";
+        let percentColor = token.price_change_percentage > 0 ? "green" : "red";
+        
+        return `
+            <p class="ticker-item">
+                <img class="icon" src="${token.url_icon}" alt="...">
+                <span class="token-name" style="color:${color}">${token.name} ${token.price} ${token.dif > 0 ? '↑' : '↓'}</span>
+                <span class="proc" style="color:${percentColor}">${token.price_change_percentage > 0 ? `+${token.price_change_percentage}%` : `${token.price_change_percentage}%`}</span>
+            </p>
+        `;
+    }).join("");
+
+    tickerContainer.innerHTML = tickerHTML + tickerHTML + tickerHTML;
+}
+// функция для конвертации времени в UTC (например, 2025-03-12T18:45:49Z)  в часовой пояс пользователя
+function convertISOToLocal(isoString) {
+    let date = new Date(isoString);
+    return date.toLocaleString(); 
+}
+
+//функции для сохранения данных, которые были перед перезагрузкой
+// Токен
+function saveSelectedToken() {
+    
+    localStorage.setItem("selectedToken", tokenSymbol);
+    console.log(`✅${tokenSymbol} сохранен в localStorage`)
+}
+
+//time-frame
+function saveSelectedFrame() {
+    localStorage.setItem("selectedFrame", timeFrame);
+    console.log(`✅${timeFrame} сохранен в localStorage`)
+}
+
+// time-period
+function saveSelectedPeriod() {
+    localStorage.setItem("selectedPeriod", timePeriod);
+}
+
+
+
 
 
 
