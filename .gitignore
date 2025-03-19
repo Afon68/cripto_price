@@ -1,9 +1,11 @@
 # Python
 *.pyc
+*.pyo
 __pycache__/
 
 # Django
 db.sqlite3
+db.sqlite3-journal
 /media/
 *.log
 
@@ -12,10 +14,17 @@ venv/
 .env
 *.env
 
-# IDE
+# IDE (игнор файлов из редакторов)
 .vscode/
 .idea/
+*.iml
 
-# Static (собранная статика)
-
+# Static & Migrations (необязательно)
+staticfiles/
 static/
+*.pickle
+
+# Cache & Debug
+*.swp
+*.swo
+*.~undo
