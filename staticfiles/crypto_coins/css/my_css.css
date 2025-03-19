@@ -1,0 +1,208 @@
+body {
+    font-family: sans-serif !important; /* Вернёт стандартный шрифт */
+    
+    
+  }
+
+  #table-container {
+    border-collapse: collapse; /* Убирает отступы между ячейками */
+    /* margin-right: 1rem!important; */
+    /* min-width: auto !important; */
+    /* overflow-x: auto; */
+    width: 100%; 
+  }
+
+  .tab {
+    padding-right: 1rem;
+  }
+
+  #table-container th, #table-container td {
+    border: 1px solid black; /* Чёрные границы */
+    padding: 2px; /* Отступ внутри ячеек */
+    text-align: center;
+  }
+
+  .icon {
+    width: 18px;
+  }
+  
+  .avatar {
+    width: 16px;
+  }
+  
+  #coin {
+    width: 16px;
+  }
+
+  .name-cur {
+    display:inline-flex;
+    
+  }
+
+  p{
+    padding-right: 1rem;
+    margin-bottom:-1rem; 
+  }
+
+  .tok {
+    font-size: 20px;
+    padding-top: -8px !important;
+  }
+
+  .tron {
+    font-size: 15px;
+    
+  }
+
+  /* .nav-link {
+    padding-bottom: -0.5rem!important;
+  } */
+
+  .frame {
+    font-size: 12px;
+    position: absolute;
+    transform: translate(0, -55%)
+  }
+
+  /* .rom {
+    position: absolute;
+    transform: translate(0, -50%)
+  }  */
+
+  .crip {
+    display:inline-block;
+    text-align: center;
+    margin-bottom: -1rem !important;
+    font-size: 12px;
+    margin-left: 1rem;
+    margin-left: 1rem; 
+   
+    position: absolute;
+    transform: translate(0, -40%)
+  }
+
+  .crov {
+    margin-top: -0.4rem;
+    margin-right: 1rem;
+  } 
+  .pen {
+    margin-right: 1rem;
+  }
+
+  .dancing-script {
+    font-family: "Dancing Script", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    display: inline-block;
+    
+    /* Обязательно для корректной работы transform */
+    transform: rotate(-15deg);
+    /* Угол поворота в градусах */
+    transform-origin: center;
+    /* Точка, вокруг которой происходит вращение */
+    font-size: 24px;
+    /* Размер */
+    text-shadow: 5px 5px 5px rgba(252, 251, 251, 0.7);
+    margin-left: 5rem;
+    padding-left: -5rem;
+    margin-right: -5rem;
+  }
+  
+  
+  .dancing-script:hover{
+  
+    text-shadow: none;   /*5px 5px rgb(255, 255, 255);*/
+    color: #7f7e7e;
+    
+  }
+
+  .sun {
+    text-decoration: none; 
+  }
+  
+  .dark-mode {
+    background-color: #212223;
+    color: rgb(254, 254, 253);
+    
+  }
+  
+  .dark-mode a {
+    color: #fbfafb;  /* Лиловый цвет ссылок */
+  }
+
+  .navbar a:hover {
+    color:#4bd6e2 !important;
+  }
+
+  .title {
+    text-align: center;
+    text-shadow: 5px 5px 5px rgba(5, 5, 5, 0.4);
+    
+  }
+
+  .description {
+    list-style-type: none;
+  }
+
+  .screen {
+    width: 100%;
+    box-shadow: 5px 5px 10px 1px rgba(8, 8, 8, 0.4);
+  }
+
+  /* .forward {
+    color: red;
+    font-size: 30px;
+    text-decoration: none;
+    text-shadow: 5px 5px 5px rgb(185, 183, 183); 
+  } */
+
+  .forward-line {
+    text-align: center;
+  }
+
+  .forward {
+    padding: 8px 15px;
+    background-color: #1404f8;
+    color: white;
+    font-size: 30px;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    /* font-weight: bold; */
+    display: inline-block;
+    box-shadow: 5px 5px 10px 1px rgba(8, 8, 8, 0.4);
+    text-shadow: 5px 5px 5px rgba(5, 5, 5, 0.4);
+  }
+
+  .forward:hover {
+    background-color: aliceblue;
+    color:red;
+  }
+
+  .ticker-wrapper {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    /* background: black; */
+    padding: 10px 0px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.ticker {
+    /* display: inline-flex; */
+    display: flex;
+    gap: 50px;  /* Расстояние между элементами */
+    white-space: nowrap;
+    animation: tickerMove 80s linear infinite;
+}
+
+@keyframes tickerMove {
+    from {
+        transform: translateX(10%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}

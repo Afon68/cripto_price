@@ -26,9 +26,3 @@ class CoinPrice(models.Model):
         return f"{self.token.symbol} = {self.price} USD"
 
 
-"""URLField   -   CharField для URL, проверяется валидатором URLValidator.
-
-Виджет формы по умолчанию для этого поля TextInput.
-
-Как и все подклассы CharField, URLField принимает необязательный
- аргумент max_length. Если вы не укажете max_length, используется значение по умолчанию 200."""

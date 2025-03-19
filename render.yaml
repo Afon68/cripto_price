@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: cripto_curr
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 manage.py runserver 0.0.0.0:8000
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: false
+      - key: DJANGO_ALLOWED_HOSTS
+        value: "*"
+      - key: PORT
+        value: "8000"

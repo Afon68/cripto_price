@@ -1,0 +1,21 @@
+# Python
+*.pyc
+__pycache__/
+
+# Django
+db.sqlite3
+/media/
+*.log
+
+# Virtual Environment
+venv/
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+
+# Static (собранная статика)
+
+static/
