@@ -8,9 +8,9 @@ class CryptoCoinsConfig(AppConfig):
 
     
     def ready(self):
-        if os.environ.get("RUN_MAIN") != "true":  # ✅ Если это не главный процесс - выходим
-            print("🚀 Первый запуск Django (игнорируем)")
-            return
+        # if os.environ.get("RUN_MAIN") != "true":  # ✅ Если это не главный процесс - выходим
+        #     print("🚀 Первый запуск Django (игнорируем)")
+        #     return
         print("Запускаем планировщик при старте Django")
         try:
             from .scheduler import start
