@@ -28,7 +28,7 @@ def for_running_line(request,period):    # ,time_frame
         back_period_hours = CoinPrice.objects.filter(token=token,timestamp__gte=now() - timedelta(hours=period)).order_by('timestamp')[0]
         url_icon = f"https://bin.bnbstatic.com/static/assets/logos/{token.symbol}.png"
         # url_icon = f"http://127.0.0.1:8000/static/crypto_coins/images/{token.symbol}.png" # 👈 Генерируем полный URL
-        print(f"url_icon = {url_icon}")
+        # print(f"url_icon = {url_icon}")
          
         if latest_prices:
             if back_period_hours:

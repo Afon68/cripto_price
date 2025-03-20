@@ -1,3 +1,4 @@
+import os
 import time
 import logging
 from django.db import connection
@@ -39,15 +40,24 @@ def get_table_size():
 def start_selenium():
     """Запускает и возвращает экземпляр браузера Chrome"""
     try:
+        os.system("pkill -f chromedriver")  # Завершаем старые процессы
+        os.system("pkill -f chrome")
+
         service = Service(ChromeDriverManager().install())
         options = Options()
         options.add_argument("--headless")  # Без графического интерфейса
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")  
+        options.add_argument("--remote-debugging-port=9222")  
+
+        time.sleep(5)  # Подождем 5 секунд перед запуском
+
         return webdriver.Chrome(service=service, options=options)
     except WebDriverException as e:
         logging.error(f"❌ Ошибка запуска Selenium: {e}")
         return None  # 🚨 Если Selenium не запустился, возвращаем None
+
 
 def price_token_from_rialto():
     """Бесконечный цикл сбора данных с автоматическим перезапуском браузера"""
