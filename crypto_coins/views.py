@@ -44,8 +44,8 @@ def for_running_line(request,period):    # ,time_frame
                                             "url_icon": url_icon,"price_change_percentage": 0.00 })        
         else:
             "❌ Ошибка: объектов в latest_prices нет!"
-      # За последние 24 часа  days
-    print(f"back_period_hours = {back_period_hours}")
+      
+    
     return last_all_price
    
 
