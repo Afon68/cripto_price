@@ -23,6 +23,7 @@ class CoinPrice(models.Model):
         ordering = ["-timestamp"]  # Сортировка от новых к старым
 
     def __str__(self):
+        
         return f"{self.token.symbol} = {self.price} USD"
 
 
