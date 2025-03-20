@@ -40,8 +40,8 @@ def get_table_size():
 def start_selenium():
     """Запускает и возвращает экземпляр браузера Chrome"""
     try:
-        os.system("pkill -f chromedriver")  # Завершаем старые процессы
-        os.system("pkill -f chrome")
+        # os.system("pkill -f chromedriver")  # Завершаем старые процессы
+        # os.system("pkill -f chrome")
          # 🚀 Проверяем, установлен ли Chrome (иначе устанавливаем)
         chrome_path = "/usr/bin/google-chrome"
         if not os.path.exists(chrome_path):
