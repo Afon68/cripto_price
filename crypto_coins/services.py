@@ -51,7 +51,7 @@ def start_selenium():
         options.add_argument("--disable-dev-shm-usage")  
         options.add_argument("--remote-debugging-port=9222")  
 
-        time.sleep(5)  # Подождем 5 секунд перед запуском
+        time.sleep(10)  # Подождем 5 секунд перед запуском
 
         return webdriver.Chrome(service=service, options=options)
     except WebDriverException as e:
