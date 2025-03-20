@@ -42,6 +42,12 @@ def start_selenium():
     try:
         os.system("pkill -f chromedriver")  # Завершаем старые процессы
         os.system("pkill -f chrome")
+         # 🚀 Проверяем, установлен ли Chrome (иначе устанавливаем)
+        chrome_path = "/usr/bin/google-chrome"
+        if not os.path.exists(chrome_path):
+            os.system("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
+            os.system("dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install")
+
 
         service = Service(ChromeDriverManager().install())
         options = Options()
