@@ -51,7 +51,7 @@ def start_selenium():
             logging.info("✅ Selenium успешно запущен!")
             return driver
         except Exception as e:
-            logging.error(f"❌ Ошибка Selenium: {e}")
+            logging.error(f"❌ Ошибка Selenium: {e},следующий запуск через 5 сек")
             time.sleep(5)
 
     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
