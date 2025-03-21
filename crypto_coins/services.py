@@ -37,32 +37,38 @@ def get_table_size():
         size = cursor.fetchone()
         print(size[0])  # объем таблицы CoinPrice в килобайтах
 
+import logging
+import time
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import WebDriverException
+
 def start_selenium():
     """Запускает и возвращает экземпляр браузера Chrome"""
-    try:
-        # os.system("pkill -f chromedriver")  # Завершаем старые процессы
-        # os.system("pkill -f chrome")
-         # 🚀 Проверяем, установлен ли Chrome (иначе устанавливаем)
-        chrome_path = "/usr/bin/google-chrome"
-        if not os.path.exists(chrome_path):
-            os.system("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
-            os.system("dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install")
+    for attempt in range(3):  # 🔄 3 попытки перезапуска
+        try:
+            logging.info(f"🚀 Запуск Selenium (попытка {attempt + 1}/3)")
 
+            service = Service(ChromeDriverManager().install())
+            options = Options()
+            options.add_argument("--headless")  
+            options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")  # 🚀 Fix для Render
+            options.binary_location = "/usr/bin/google-chrome"  # ✅ Указываем путь к Chrome
 
-        service = Service(ChromeDriverManager().install())
-        options = Options()
-        options.add_argument("--headless")  # Без графического интерфейса
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")  
-        options.add_argument("--remote-debugging-port=9222")  
+            driver = webdriver.Chrome(service=service, options=options)
+            logging.info("✅ Selenium успешно запущен!")
+            return driver  
 
-        time.sleep(10)  # Подождем 5 секунд перед запуском
+        except WebDriverException as e:
+            logging.error(f"❌ Ошибка Selenium: {e}")
+            time.sleep(5)  # 🔄 Ждем 5 сек перед новой попыткой
 
-        return webdriver.Chrome(service=service, options=options)
-    except WebDriverException as e:
-        logging.error(f"❌ Ошибка запуска Selenium: {e}")
-        return None  # 🚨 Если Selenium не запустился, возвращаем None
+    logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
+    return None
 
 
 def price_token_from_rialto():
