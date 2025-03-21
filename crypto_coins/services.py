@@ -40,9 +40,12 @@ def get_table_size():
         print(size[0])  # объем таблицы CoinPrice в килобайтах
 
 
+
+
 def start_selenium():
     """Запуск браузера через undetected_chromedriver"""
     chrome_path = "/opt/render/project/chrome/opt/google/chrome/google-chrome"
+    chromedriver_path = "/opt/render/project/chrome/chromedriver-linux64/chromedriver"
 
     if not os.path.exists(chrome_path):
         logging.critical("⛔ Google Chrome не найден! Проверьте установку.")
@@ -56,7 +59,7 @@ def start_selenium():
                 headless=True,
                 use_subprocess=False,
                 browser_executable_path=chrome_path,
-                driver_executable_path=ChromeDriverManager().install()
+                driver_executable_path=chromedriver_path
             )
 
             logging.info("✅ Selenium успешно запущен!")
