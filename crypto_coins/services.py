@@ -41,21 +41,40 @@ def get_table_size():
 
 
 
+import undetected_chromedriver as uc
+import logging
+import time
+import shutil
 
 def start_selenium():
     """Запуск браузера через undetected_chromedriver"""
+    chrome_path = shutil.which("google-chrome")  # Находим путь к Chrome
+
+    if not chrome_path:
+        logging.critical("⛔ Google Chrome не найден! Убедитесь, что он установлен.")
+        return None
+
     for attempt in range(3):
         try:
             logging.info(f"🚀 Запуск undetected_chromedriver (попытка {attempt + 1}/3)")
-            driver = uc.Chrome(headless=True, use_subprocess=False)
+
+            driver = uc.Chrome(
+                headless=True,
+                use_subprocess=False,
+                browser_executable_path=chrome_path  # ✅ Явно указываем путь к Chrome
+            )
+
             logging.info("✅ Selenium успешно запущен!")
             return driver
+
         except Exception as e:
-            logging.error(f"❌ Ошибка Selenium: {e},следующий запуск через 5 сек")
+            logging.error(f"❌ Ошибка Selenium: {e}, следующий запуск через 5 сек")
             time.sleep(5)
 
     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
     return None
+
+
 
 def price_token_from_rialto():
     """Бесконечный цикл сбора данных с автоматическим перезапуском браузера"""
