@@ -51,6 +51,8 @@ import logging
 import os
 import time
 
+
+
 def start_selenium():
     """Запуск браузера через undetected_chromedriver"""
     chrome_path = os.getenv("CHROME_BINARY", "/opt/render/project/chrome/opt/google/chrome/google-chrome")
@@ -80,6 +82,7 @@ def start_selenium():
 
     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
     return None
+
 
 
 
