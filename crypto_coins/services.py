@@ -41,31 +41,23 @@ def get_table_size():
 
 
 
-import undetected_chromedriver as uc
-import logging
-import time
-import shutil
+
 
 # import undetected_chromedriver as uc
+
+
+import undetected_chromedriver as uc
 import logging
-import time
-import shutil
 import os
+import time
 
 def start_selenium():
     """Запуск браузера через undetected_chromedriver"""
-    chrome_paths = [
-        "/usr/bin/google-chrome",          # Возможный путь
-        "/usr/bin/chromium-browser",       # Для Chromium
-        "/usr/local/bin/google-chrome",    # Другой вариант
-        shutil.which("google-chrome"),     # Поиск в системе
-        shutil.which("chromium-browser")   # Поиск Chromium
-    ]
+    chrome_path = os.getenv("CHROME_BINARY", "/opt/render/project/chrome/opt/google/chrome/google-chrome")
+    chromedriver_path = os.getenv("CHROMEDRIVER_BINARY", "/opt/render/project/chrome/chromedriver")
 
-    chrome_path = next((path for path in chrome_paths if path and os.path.exists(path)), None)
-
-    if not chrome_path:
-        logging.critical("⛔ Google Chrome не найден! Убедитесь, что он установлен.")
+    if not os.path.exists(chrome_path):
+        logging.critical("⛔ Google Chrome не найден! Проверьте установку.")
         return None
 
     for attempt in range(3):
@@ -75,7 +67,8 @@ def start_selenium():
             driver = uc.Chrome(
                 headless=True,
                 use_subprocess=False,
-                browser_executable_path=chrome_path  # ✅ Указываем найденный Chrome
+                browser_executable_path=chrome_path,
+                driver_executable_path=chromedriver_path
             )
 
             logging.info("✅ Selenium успешно запущен!")
@@ -87,6 +80,7 @@ def start_selenium():
 
     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
     return None
+
 
 
 def price_token_from_rialto():
