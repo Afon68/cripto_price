@@ -40,23 +40,9 @@ def get_table_size():
         print(size[0])  # объем таблицы CoinPrice в килобайтах
 
 
-
-
-
-# import undetected_chromedriver as uc
-
-
-import undetected_chromedriver as uc
-import logging
-import os
-import time
-
-
-
 def start_selenium():
     """Запуск браузера через undetected_chromedriver"""
-    chrome_path = os.getenv("CHROME_BINARY", "/opt/render/project/chrome/opt/google/chrome/google-chrome")
-    chromedriver_path = os.getenv("CHROMEDRIVER_BINARY", "/opt/render/project/chrome/chromedriver")
+    chrome_path = "/opt/render/project/chrome/opt/google/chrome/google-chrome"
 
     if not os.path.exists(chrome_path):
         logging.critical("⛔ Google Chrome не найден! Проверьте установку.")
@@ -70,7 +56,7 @@ def start_selenium():
                 headless=True,
                 use_subprocess=False,
                 browser_executable_path=chrome_path,
-                driver_executable_path=chromedriver_path
+                driver_executable_path=ChromeDriverManager().install()
             )
 
             logging.info("✅ Selenium успешно запущен!")
@@ -82,8 +68,6 @@ def start_selenium():
 
     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
     return None
-
-
 
 
 def price_token_from_rialto():
