@@ -13,6 +13,8 @@ from django.utils.timezone import now
 from crypto_coins.models import CoinPrice, Token  # Подставь свой путь
 from selenium.common.exceptions import WebDriverException
 
+import undetected_chromedriver as uc
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -37,39 +39,23 @@ def get_table_size():
         size = cursor.fetchone()
         print(size[0])  # объем таблицы CoinPrice в килобайтах
 
-import logging
-import time
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.common.exceptions import WebDriverException
+
+
 
 def start_selenium():
-    """Запускает и возвращает экземпляр браузера Chrome"""
-    for attempt in range(3):  # 🔄 3 попытки перезапуска
+    """Запуск браузера через undetected_chromedriver"""
+    for attempt in range(3):
         try:
-            logging.info(f"🚀 Запуск Selenium (попытка {attempt + 1}/3)")
-
-            service = Service(ChromeDriverManager().install())
-            options = Options()
-            options.add_argument("--headless")  
-            options.add_argument("--disable-gpu")
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")  # 🚀 Fix для Render
-            options.binary_location = "/usr/bin/google-chrome"  # ✅ Указываем путь к Chrome
-
-            driver = webdriver.Chrome(service=service, options=options)
+            logging.info(f"🚀 Запуск undetected_chromedriver (попытка {attempt + 1}/3)")
+            driver = uc.Chrome(headless=True, use_subprocess=False)
             logging.info("✅ Selenium успешно запущен!")
-            return driver  
-
-        except WebDriverException as e:
+            return driver
+        except Exception as e:
             logging.error(f"❌ Ошибка Selenium: {e}")
-            time.sleep(5)  # 🔄 Ждем 5 сек перед новой попыткой
+            time.sleep(5)
 
     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
     return None
-
 
 def price_token_from_rialto():
     """Бесконечный цикл сбора данных с автоматическим перезапуском браузера"""
