@@ -1,3 +1,4 @@
+import logging
 import threading
 import time
 import psutil
@@ -11,7 +12,7 @@ def check_memory():
     while True:
         mem = psutil.virtual_memory()
         if mem.available < 100 * 1024 * 1024:  # Если < 100MB свободно
-            print("⚠ ОЗУ заканчивается! Перезапускаем Selenium...")
+            logging.warning(f"⚠ ОЗУ заканчивается!Осталось {mem.available} Перезапускаем Selenium...")
             start_selenium()  # Перезапускаем Selenium
         time.sleep(10)  # Проверяем каждые 10 секунд
 
