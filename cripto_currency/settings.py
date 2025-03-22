@@ -32,7 +32,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-ALLOWED_HOSTS = ["*", "CriptoPrice.onrender.com"]
+ALLOWED_HOSTS = ["*"]  #, "CriptoPrice.onrender.com"]
 
 # ✅ Переменные окружения
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
