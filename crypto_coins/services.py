@@ -39,13 +39,46 @@ def get_table_size():
         size = cursor.fetchone()
         print(size[0])  # объем таблицы CoinPrice в килобайтах
 
+# start_selenium() для локального сервера - 127.0.0.1....
+# def start_selenium():
 
+#     """Запускает и возвращает экземпляр браузера Chrome"""
+    
+#     try:
+#         service = Service(ChromeDriverManager().install())
+#         options = Options()
+#         options.add_argument("--headless")  # Без графического интерфейса
+#         options.add_argument("--disable-gpu")
+#         options.add_argument("--no-sandbox")
 
+#         return webdriver.Chrome(service=service, options=options)
+#     except WebDriverException as e:
+#         logging.error(f"❌ Ошибка запуска Selenium: {e}")
+#         return None  # 🚨 Если Selenium не запустился, возвращаем None
 
+# start_selenium() для сервера Render
 def start_selenium():
-    """Запуск браузера через undetected_chromedriver"""
+    """Запуск браузера через undetected_chromedriver с оптимизацией памяти"""
     chrome_path = "/opt/render/project/chrome/opt/google/chrome/google-chrome"
     chromedriver_path = "/opt/render/project/chrome/chromedriver-linux64/chromedriver"
+
+    chrome_options = [
+        "--headless",  # Без графического интерфейса
+        "--disable-gpu",  # Отключаем использование GPU
+        "--no-sandbox",  # Отключаем песочницу (важно для Render)
+        "--disable-dev-shm-usage",  # Используем меньше памяти
+        "--remote-debugging-port=9222",  # Открываем отладочный порт
+        "--disable-background-timer-throttling",  # Отключаем замедление таймеров
+        "--disable-backgrounding-occluded-windows",  # Отключаем скрытие окон
+        "--disable-client-side-phishing-detection",  # Отключаем антифрод-фильтр
+        "--disable-crash-reporter",  # Отключаем отчеты о сбоях
+        "--disable-infobars",  # Отключаем всплывающие уведомления
+        "--disable-notifications",  # Отключаем уведомления
+        "--disable-extensions",  # Отключаем расширения
+        "--disable-sync",  # Отключаем синхронизацию
+        "--disk-cache-size=0",  # Отключаем кэш
+        "--memory-pressure-off",  # Отключаем контроль давления на память
+    ]
 
     if not os.path.exists(chrome_path):
         logging.critical("⛔ Google Chrome не найден! Проверьте установку.")
@@ -59,7 +92,8 @@ def start_selenium():
                 headless=True,
                 use_subprocess=False,
                 browser_executable_path=chrome_path,
-                driver_executable_path=chromedriver_path
+                driver_executable_path=chromedriver_path,
+                options=chrome_options
             )
 
             logging.info("✅ Selenium успешно запущен!")
@@ -71,6 +105,7 @@ def start_selenium():
 
     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
     return None
+
 
 
 def price_token_from_rialto():

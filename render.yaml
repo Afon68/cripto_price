@@ -14,3 +14,7 @@ services:
         value: "*"
       - key: PORT
         value: "8000"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: GUNICORN_CMD_ARGS
+        value: "--workers=1 --threads=2 --timeout 120"

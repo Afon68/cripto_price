@@ -24,17 +24,16 @@ def for_running_line(request,period):    # ,time_frame
     tokens = Token.objects.all()
     last_all_price = []
     for token in tokens:
-        latest_prices = CoinPrice.objects.filter(token=token).order_by('-timestamp')[:2]
-        back_period_hours = CoinPrice.objects.filter(token=token,timestamp__gte=now() - timedelta(hours=period)).order_by('timestamp')[0]
+        latest_prices = CoinPrice.objects.filter(token=token).order_by('-timestamp')
+        back_period_hours = CoinPrice.objects.filter(token=token,timestamp__gte=now() - timedelta(hours=period)).order_by('timestamp')
         url_icon = f"https://bin.bnbstatic.com/static/assets/logos/{token.symbol}.png"
         # url_icon = f"http://127.0.0.1:8000/static/crypto_coins/images/{token.symbol}.png" # 👈 Генерируем полный URL
         # print(f"url_icon = {url_icon}")
          
         if latest_prices:
             if back_period_hours:
-                # изменения цены в %
-                price_change_percentage= (round(100 - 100 * latest_prices[0].price / back_period_hours.price, 2)) * (-1)
-                print(f"✅ back_period_hours = {back_period_hours.price}")
+                price_change_percentage= (round(100 - 100 * latest_prices[0].price / back_period_hours[0].price, 2)) * (-1)  # изменения цены в %
+                print(f"✅ back_period_hours = {back_period_hours[0].price}")
                 dif = round_number(latest_prices[0].price) - round_number(latest_prices[1].price)
                 last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
                                         "url_icon": url_icon,"price_change_percentage": price_change_percentage })
