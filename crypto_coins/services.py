@@ -57,28 +57,37 @@ def get_table_size():
 #         return None  # 🚨 Если Selenium не запустился, возвращаем None
 
 # start_selenium() для сервера Render
+# from selenium.webdriver.chrome.options import Options
+
 def start_selenium():
     """Запуск браузера через undetected_chromedriver с оптимизацией памяти"""
     chrome_path = "/opt/render/project/chrome/opt/google/chrome/google-chrome"
     chromedriver_path = "/opt/render/project/chrome/chromedriver-linux64/chromedriver"
 
-    chrome_options = [
-        "--headless",  # Без графического интерфейса
-        "--disable-gpu",  # Отключаем использование GPU
-        "--no-sandbox",  # Отключаем песочницу (важно для Render)
-        "--disable-dev-shm-usage",  # Используем меньше памяти
-        "--remote-debugging-port=9222",  # Открываем отладочный порт
-        "--disable-background-timer-throttling",  # Отключаем замедление таймеров
-        "--disable-backgrounding-occluded-windows",  # Отключаем скрытие окон
-        "--disable-client-side-phishing-detection",  # Отключаем антифрод-фильтр
-        "--disable-crash-reporter",  # Отключаем отчеты о сбоях
-        "--disable-infobars",  # Отключаем всплывающие уведомления
-        "--disable-notifications",  # Отключаем уведомления
-        "--disable-extensions",  # Отключаем расширения
-        "--disable-sync",  # Отключаем синхронизацию
-        "--disk-cache-size=0",  # Отключаем кэш
-        "--memory-pressure-off",  # Отключаем контроль давления на память
+    # ✅ Создаем объект Options
+    chrome_options = Options()
+    
+    # ✅ Добавляем аргументы
+    arguments = [
+        "--headless",
+        "--disable-gpu",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--remote-debugging-port=9222",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-client-side-phishing-detection",
+        "--disable-crash-reporter",
+        "--disable-infobars",
+        "--disable-notifications",
+        "--disable-extensions",
+        "--disable-sync",
+        "--disk-cache-size=0",
+        "--memory-pressure-off"
     ]
+    
+    for arg in arguments:
+        chrome_options.add_argument(arg)
 
     if not os.path.exists(chrome_path):
         logging.critical("⛔ Google Chrome не найден! Проверьте установку.")
@@ -93,7 +102,7 @@ def start_selenium():
                 use_subprocess=False,
                 browser_executable_path=chrome_path,
                 driver_executable_path=chromedriver_path,
-                options=chrome_options
+                options=chrome_options  # ✅ Теперь передается корректно!
             )
 
             logging.info("✅ Selenium успешно запущен!")
@@ -105,7 +114,6 @@ def start_selenium():
 
     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
     return None
-
 
 
 def price_token_from_rialto():
