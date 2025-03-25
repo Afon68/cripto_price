@@ -40,80 +40,80 @@ def get_table_size():
         print(size[0])  # объем таблицы CoinPrice в килобайтах
 
 # start_selenium() для локального сервера - 127.0.0.1....
-# def start_selenium():
+def start_selenium():
 
-#     """Запускает и возвращает экземпляр браузера Chrome"""
+    """Запускает и возвращает экземпляр браузера Chrome"""
     
-#     try:
-#         service = Service(ChromeDriverManager().install())
-#         options = Options()
-#         options.add_argument("--headless")  # Без графического интерфейса
-#         options.add_argument("--disable-gpu")
-#         options.add_argument("--no-sandbox")
+    try:
+        service = Service(ChromeDriverManager().install())
+        options = Options()
+        options.add_argument("--headless")  # Без графического интерфейса
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
 
-#         return webdriver.Chrome(service=service, options=options)
-#     except WebDriverException as e:
-#         logging.error(f"❌ Ошибка запуска Selenium: {e}")
-#         return None  # 🚨 Если Selenium не запустился, возвращаем None
+        return webdriver.Chrome(service=service, options=options)
+    except WebDriverException as e:
+        logging.error(f"❌ Ошибка запуска Selenium: {e}")
+        return None  # 🚨 Если Selenium не запустился, возвращаем None
 
 # start_selenium() для сервера Render
 # from selenium.webdriver.chrome.options import Options
 
-def start_selenium():
-    """Запуск браузера через undetected_chromedriver с оптимизацией памяти"""
-    chrome_path = "/opt/render/project/chrome/opt/google/chrome/google-chrome"
-    chromedriver_path = "/opt/render/project/chrome/chromedriver-linux64/chromedriver"
+# def start_selenium():
+#     """Запуск браузера через undetected_chromedriver с оптимизацией памяти"""
+#     chrome_path = "/opt/render/project/chrome/opt/google/chrome/google-chrome"
+#     chromedriver_path = "/opt/render/project/chrome/chromedriver-linux64/chromedriver"
 
-    # ✅ Создаем объект Options
-    chrome_options = Options()
+#     # ✅ Создаем объект Options
+#     chrome_options = Options()
     
-    # ✅ Добавляем аргументы
-    arguments = [
-        "--headless",
-        "--disable-gpu",
-        "--no-sandbox",
-        "--disable-dev-shm-usage",
-        "--remote-debugging-port=9222",
-        "--disable-background-timer-throttling",
-        "--disable-backgrounding-occluded-windows",
-        "--disable-client-side-phishing-detection",
-        "--disable-crash-reporter",
-        "--disable-infobars",
-        "--disable-notifications",
-        "--disable-extensions",
-        "--disable-sync",
-        "--disk-cache-size=0",
-        "--memory-pressure-off"
-    ]
+#     # ✅ Добавляем аргументы
+#     arguments = [
+#         "--headless",
+#         "--disable-gpu",
+#         "--no-sandbox",
+#         "--disable-dev-shm-usage",
+#         "--remote-debugging-port=9222",
+#         "--disable-background-timer-throttling",
+#         "--disable-backgrounding-occluded-windows",
+#         "--disable-client-side-phishing-detection",
+#         "--disable-crash-reporter",
+#         "--disable-infobars",
+#         "--disable-notifications",
+#         "--disable-extensions",
+#         "--disable-sync",
+#         "--disk-cache-size=0",
+#         "--memory-pressure-off"
+#     ]
     
-    for arg in arguments:
-        chrome_options.add_argument(arg)
+#     for arg in arguments:
+#         chrome_options.add_argument(arg)
 
-    if not os.path.exists(chrome_path):
-        logging.critical("⛔ Google Chrome не найден! Проверьте установку.")
-        return None
+#     if not os.path.exists(chrome_path):
+#         logging.critical("⛔ Google Chrome не найден! Проверьте установку.")
+#         return None
 
-    for attempt in range(3):
-        try:
-            logging.info(f"🚀 Запуск undetected_chromedriver (попытка {attempt + 1}/3)")
+#     for attempt in range(3):
+#         try:
+#             logging.info(f"🚀 Запуск undetected_chromedriver (попытка {attempt + 1}/3)")
 
-            driver = uc.Chrome(
-                headless=True,
-                use_subprocess=False,
-                browser_executable_path=chrome_path,
-                driver_executable_path=chromedriver_path,
-                options=chrome_options  # ✅ Теперь передается корректно!
-            )
+#             driver = uc.Chrome(
+#                 headless=True,
+#                 use_subprocess=False,
+#                 browser_executable_path=chrome_path,
+#                 driver_executable_path=chromedriver_path,
+#                 options=chrome_options  # ✅ Теперь передается корректно!
+#             )
 
-            logging.info("✅ Selenium успешно запущен!")
-            return driver
+#             logging.info("✅ Selenium успешно запущен!")
+#             return driver
 
-        except Exception as e:
-            logging.error(f"❌ Ошибка Selenium: {e}, следующий запуск через 5 сек")
-            time.sleep(5)
+#         except Exception as e:
+#             logging.error(f"❌ Ошибка Selenium: {e}, следующий запуск через 5 сек")
+#             time.sleep(5)
 
-    logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
-    return None
+#     logging.critical("⛔ Selenium не запустился после 3 попыток. Останавливаем работу.")
+#     return None
 
 
 def price_token_from_rialto():
