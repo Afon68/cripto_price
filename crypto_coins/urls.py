@@ -1,6 +1,4 @@
 from django.urls import path
-# from .views import eth_price_view
-# from .views import get_latest_price
 from .views import get_latest_price_list
 from .views import token_price_with_js_view
 from .views import hello_view

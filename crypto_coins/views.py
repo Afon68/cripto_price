@@ -5,45 +5,43 @@ from django.shortcuts import render
 from django.template import context
 from django.templatetags import static
 from urllib3 import request
-
-from cripto_currency.settings import DEBUG
-
-
 from .models import CoinPrice, Token
-from django.utils.timezone import localtime, now, timedelta
-from datetime import timedelta, datetime
+from django.utils.timezone import  now, timedelta
+from datetime import timedelta
 from django.http import JsonResponse
 from .utils import round_number
-import threading
-from .services import price_token_from_rialto
+
+
 
 
 
 
 def for_running_line(request,period):    # ,time_frame
     tokens = Token.objects.all()
+    print(f"tokens:{tokens}")
     last_all_price = []
     for token in tokens:
-        latest_prices = CoinPrice.objects.filter(token=token).order_by('-timestamp')
-        back_period_hours = CoinPrice.objects.filter(token=token,timestamp__gte=now() - timedelta(hours=period)).order_by('timestamp')
-        url_icon = f"https://bin.bnbstatic.com/static/assets/logos/{token.symbol}.png"
-        # url_icon = f"http://127.0.0.1:8000/static/crypto_coins/images/{token.symbol}.png" # 👈 Генерируем полный URL
-        # print(f"url_icon = {url_icon}")
-         
-        if latest_prices:
-            if back_period_hours:
-                price_change_percentage= (round(100 - 100 * latest_prices[0].price / back_period_hours[0].price, 2)) * (-1)  # изменения цены в %
-                print(f"✅ back_period_hours = {back_period_hours[0].price}")
+        try:
+            latest_prices = CoinPrice.objects.filter(token=token,timestamp__gte=now() - timedelta(hours=period)).order_by('-timestamp')
+            url_icon = f"https://bin.bnbstatic.com/static/assets/logos/{token.symbol}.png"
+            
+            print(f"len(latest_prices) = {len(latest_prices)} для {token.symbol}")   #> 1:
+            if len(latest_prices) > 1:
+                price_change_percentage= (round(100 - 100 * latest_prices[0].price / latest_prices[len(latest_prices)-1].price, 2)) * (-1)  # изменения цены в % len(latest_prices)-1
+                print(f"✅ Самая поздняя цена периода = {latest_prices[len(latest_prices)-1].price}")
                 dif = round_number(latest_prices[0].price) - round_number(latest_prices[1].price)
                 last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
                                         "url_icon": url_icon,"price_change_percentage": price_change_percentage })
+                # else:
+                    #     dif = round(latest_prices[0].price - latest_prices[1].price, 2)
+                    #     last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
+                    #                                 "url_icon": url_icon,"price_change_percentage": 0.00 })        
             else:
-                dif = round(latest_prices[0].price - latest_prices[1].price, 2)
-                last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
-                                            "url_icon": url_icon,"price_change_percentage": 0.00 })        
-        else:
-            "❌ Ошибка: объектов в latest_prices нет!"
-      
+                print("⚠ Недостаточно данных для вычисления изменения цены")
+                logging.error("❌ Ошибка: объектов в latest_prices не было из-за простоя сервера или добавлен новый токен, надо немного подождать !")
+        except Exception as e:
+            logging.error(f"🔥 Ошибка при обработке {token.symbol}: {e}")
+            print(f"🔥 Ошибка при обработке {token.symbol}: {e}")
     
     return last_all_price
    
@@ -72,7 +70,7 @@ def get_latest_price_list(request,token_symbol,time_frame,period):
 # функция, котораая выбирает данные(объекты, экземпляры, записи) согласно тайм-фрейму
 def select_time_frame(hourly_prices,time_frame):
     last_price = []
-    logging.info(f"time_frame = {time_frame}") 
+    print(f"time_frame = {time_frame}") 
     if hourly_prices:
         last_price.append(hourly_prices[0])
         i = 0            
@@ -89,9 +87,9 @@ def select_time_frame(hourly_prices,time_frame):
                         i += 1
             i += 1    
     else:
-        logging.info("❌ В БД нет запрашиваемых данных(наверное прошло более суток)")
-    logging.info(f"last_price = {len(last_price)}")
-    logging.info(f"last_price = {last_price}")
+        print("❌ В БД нет запрашиваемых данных(наверное прошло более суток)")
+    print(f"last_price = {len(last_price)}")
+    print(f"last_price = {last_price}")
 
     return last_price 
 

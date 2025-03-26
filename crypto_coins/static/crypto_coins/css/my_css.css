@@ -193,7 +193,7 @@ body {
 .ticker {
     /* display: inline-flex; */
     display: flex;
-    gap: 50px;  /* Расстояние между элементами */
+    gap: 25px;  /* Расстояние между элементами */
     white-space: nowrap;
     animation: tickerMove 80s linear infinite;
 }

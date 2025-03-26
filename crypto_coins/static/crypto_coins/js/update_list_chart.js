@@ -323,7 +323,7 @@ function currentAllPrice(latestData) {
         `;
     }).join("");
 
-    tickerContainer.innerHTML = tickerHTML + tickerHTML + tickerHTML;
+    tickerContainer.innerHTML = tickerHTML;
 }
 // функция для конвертации времени в UTC (например, 2025-03-12T18:45:49Z)  в часовой пояс пользователя
 function convertISOToLocal(isoString) {
