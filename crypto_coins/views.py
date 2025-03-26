@@ -32,10 +32,7 @@ def for_running_line(request,period):    # ,time_frame
                 dif = round_number(latest_prices[0].price) - round_number(latest_prices[1].price)
                 last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
                                         "url_icon": url_icon,"price_change_percentage": price_change_percentage })
-                # else:
-                    #     dif = round(latest_prices[0].price - latest_prices[1].price, 2)
-                    #     last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
-                    #                                 "url_icon": url_icon,"price_change_percentage": 0.00 })        
+                   
             else:
                 print("⚠ Недостаточно данных для вычисления изменения цены")
                 logging.error("❌ Ошибка: объектов в latest_prices не было из-за простоя сервера или добавлен новый токен, надо немного подождать !")
