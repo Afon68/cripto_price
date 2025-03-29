@@ -4,6 +4,12 @@ body {
     
   }
 
+  .top-line{
+    width: 105% !important;
+    margin-right: 0px ! important;
+    padding-right: 0px ! important;
+  }
+
   #table-container {
     border-collapse: collapse; /* Убирает отступы между ячейками */
     /* margin-right: 1rem!important; */
