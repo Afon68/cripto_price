@@ -118,6 +118,14 @@
                     <span class="proc">!?.?!</span>
                 </p>
                 {% endfor %}
+                <!-- Дублируем контент, чтобы создать бесконечный цикл -->
+                {% for token in tokens %}
+                <p class="ticker-item">
+                    <img class="icon" src="{% static token.url_icon %}" alt="...">
+                    <span class="token-name">{{ token.name }}</span>
+                    <span class="proc">!?.?!</span>
+                </p>
+                {% endfor %}
             </div>
         </div>
         <!--Текущая цена, история-->
@@ -149,6 +157,7 @@
     </div>
     <!--The end-->
 
-    <script src="{% static 'crypto_coins/js/update_list_chart.js' %}"></script>
+    {% comment %} <script src="{% static 'crypto_coins/js/update_list_chart.js' %}"></script> {% endcomment %}
+    <script src="{% static 'crypto_coins/js/update_list_chart.js' %}?v={% now 'U' %}"></script>
 </body>
 {% endblock content %}

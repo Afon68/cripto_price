@@ -11,11 +11,6 @@ from datetime import timedelta
 from django.http import JsonResponse
 from .utils import round_number
 
-
-
-
-
-
 def for_running_line(request,period):    # ,time_frame
     tokens = Token.objects.all()
     print(f"tokens:{tokens}")
@@ -28,7 +23,7 @@ def for_running_line(request,period):    # ,time_frame
             print(f"len(latest_prices) = {len(latest_prices)} для {token.symbol}")   #> 1:
             if len(latest_prices) > 1:
                 price_change_percentage= (round(100 - 100 * latest_prices[0].price / latest_prices[len(latest_prices)-1].price, 2)) * (-1)  # изменения цены в % len(latest_prices)-1
-                print(f"✅ Самая поздняя цена периода = {latest_prices[len(latest_prices)-1].price}")
+                print(f"✅ Самая ранняя цена периода = {latest_prices[len(latest_prices)-1].price}")
                 dif = round_number(latest_prices[0].price) - round_number(latest_prices[1].price)
                 last_all_price.append({"price": round_number(latest_prices[0].price), "dif": dif , "name":latest_prices[0].token.name,
                                         "url_icon": url_icon,"price_change_percentage": price_change_percentage })

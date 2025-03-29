@@ -211,7 +211,7 @@ function updatechartInstance(getData) {
                     backgroundColor: "rgba(0, 0, 255, 0.1)",
                     borderWidth: 2, // Базовая толщина
                     fill: true,
-                    pointRadius: 3, // Радиус точек
+                    pointRadius: 0.5, // Радиус точек
                     tension: 0.3,  // ✅ Делаем линии плавными
                     segment: {
                         borderColor: ctx => {
@@ -307,6 +307,7 @@ function updatechartInstance(getData) {
 
 function currentAllPrice(latestData) {
     let tickerContainer = document.querySelector("#all-price");
+   
 
     if (!tickerContainer) return;
 
@@ -322,8 +323,12 @@ function currentAllPrice(latestData) {
             </p>
         `;
     }).join("");
+    
+    tickerContainer.innerHTML = tickerHTML + tickerHTML;
+    // Убеждаемся, что блок тянется шире экрана
+    const tickerWidth = tickerContainer.scrollWidth;
+    tickerContainer.style.minWidth = `${tickerWidth}px`;
 
-    tickerContainer.innerHTML = tickerHTML;
 }
 // функция для конвертации времени в UTC (например, 2025-03-12T18:45:49Z)  в часовой пояс пользователя
 function convertISOToLocal(isoString) {

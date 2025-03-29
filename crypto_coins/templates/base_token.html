@@ -28,5 +28,7 @@
 {% endblock content %}
 </html>
 
-<!--gunicorn cripto_currency.wsgi:application-->
+<!--  gunicorn cripto_currency.wsgi:application  -->
 {% comment %} gunicorn --log-level=info cripto_currency.wsgi {% endcomment %}
+{% comment %} pkill gunicorn && gunicorn your_project.wsgi {% endcomment %}
+{% comment %} python manage.py collectstatic && gunicorn cripto_currency.wsgi:application {% endcomment %}
